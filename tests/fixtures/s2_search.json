@@ -1,0 +1,36 @@
+{
+ "total": 3,
+ "data": [
+  {
+   "authorId": "111",
+   "name": "Jane Doe",
+   "affiliations": [
+    "Example University"
+   ],
+   "paperCount": 9,
+   "citationCount": 210,
+   "hIndex": 6,
+   "url": "https://www.semanticscholar.org/author/111"
+  },
+  {
+   "authorId": "222",
+   "name": "Jane Doe",
+   "affiliations": [
+    "Other Institute"
+   ],
+   "paperCount": 40,
+   "citationCount": 3000,
+   "hIndex": 20,
+   "url": "https://www.semanticscholar.org/author/222"
+  },
+  {
+   "authorId": "333",
+   "name": "Janet Dobbs",
+   "affiliations": [],
+   "paperCount": 1,
+   "citationCount": 0,
+   "hIndex": 0,
+   "url": "https://www.semanticscholar.org/author/333"
+  }
+ ]
+}

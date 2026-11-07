@@ -1,0 +1,54 @@
+# Example rubric. Criteria are drawn from public "nice to have" lines in
+# ML job postings for a multimodal training-data team. Replace with what the
+# hiring manager says in a 30-minute intake, then run lint_rubric.py and
+# backtest.py before relying on it.
+
+[role]
+title = "ML Engineer, Multimodal Data"
+version = "2026-11-draft"
+owner = "Hiring manager + recruiting"
+
+[tiers]
+review_first = 0.70   # weighted score at or above this: read first
+review = 0.40         # at or above this: normal review
+min_coverage = 0.50   # if less than half the rubric can be assessed, never rank below "Review"
+
+[[criteria]]
+id = "multimodal_scale"
+name = "Large-scale video, audio or multimodal data processing"
+weight = 3
+strong = "Built or ran pipelines over terabytes of video, audio or image data (decoding, filtering, deduplication, captioning) in research or production."
+some = "Worked with multimodal data at smaller scale, or large-scale data in another modality."
+look_for = "papers, repos, job descriptions mentioning dataset size, throughput, filtering"
+
+[[criteria]]
+id = "training"
+name = "Training models or writing research code"
+weight = 2
+strong = "Trained or fine-tuned models end to end, with results reported in a paper, repo or project write-up."
+some = "Ran evaluations or contributed to someone else's training code."
+look_for = "first-author papers, training repos, experiment write-ups"
+
+[[criteria]]
+id = "data_quality"
+name = "Judgment about what makes data useful for training"
+weight = 2
+strong = "Designed data filters, quality metrics or ablations showing how data choices changed model results."
+some = "Discusses data quality decisions in their work without measuring the effect."
+look_for = "ablations, dataset papers, filtering heuristics"
+
+[[criteria]]
+id = "open_source"
+name = "Open-source contributions"
+weight = 1
+strong = "Maintains or substantially contributed to a project other people use (stars, forks, downstream users)."
+some = "Public repos with real code beyond coursework."
+look_for = "GitHub, project pages"
+
+[[criteria]]
+id = "ownership"
+name = "Ownership in small, fast teams"
+weight = 1
+strong = "Took a project from zero to shipped with little structure, e.g. as an early hire or sole owner of a system."
+some = "Owned a well-scoped component inside a larger team."
+look_for = "work history, project descriptions"

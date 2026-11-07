@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?><feed xmlns="http://www.w3.org/2005/Atom" xmlns:arxiv="http://arxiv.org/schemas/atom"><entry><id>http://arxiv.org/abs/2699.04211v2</id><published>2026-10-06T17:00:00Z</published>
+<title>Motion-Aware Filtering of Web Video
+  for Video-Language Pretraining</title><summary>We score 40M web clips at Example University.</summary><author><name>Jane Q. Doe</name><arxiv:affiliation>Example University</arxiv:affiliation></author><author><name>Coauthor One</name></author><author><name>Advisor Two</name></author><category term="cs.CV"/></entry><entry><id>http://arxiv.org/abs/2699.00117v2</id><published>2024-03-01T17:00:00Z</published>
+<title>Robust Speech Recognition in Noisy Clinics</title><summary>Speech work.</summary><author><name>J. Doe</name></author><author><name>Other Person</name></author><category term="cs.CL"/></entry><entry><id>http://arxiv.org/abs/2699.00001v2</id><published>2023-01-01T17:00:00Z</published>
+<title>Unrelated Paper</title><summary>Not her.</summary><author><name>John Smith</name></author><category term="cs.CV"/></entry></feed>

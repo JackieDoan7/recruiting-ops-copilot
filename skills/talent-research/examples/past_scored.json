@@ -1,0 +1,472 @@
+[
+  {
+    "id": "past-001",
+    "name": "Past applicant 1",
+    "group": "Review first",
+    "score": 1.0,
+    "coverage": 1.0,
+    "strongest": [
+      {
+        "text": "Past applicant 1: evidence for multimodal_scale",
+        "url": ""
+      },
+      {
+        "text": "Past applicant 1: evidence for training",
+        "url": ""
+      }
+    ],
+    "gaps": [],
+    "problems": [],
+    "note": "",
+    "ashby_note": "[Rubric review: ML Engineer, Multimodal Data] Group: Review first (score 1.00, 100% of the rubric assessable).\nStrong: Past applicant 1: evidence for multimodal_scale\nStrong: Past applicant 1: evidence for training\nPrioritization aid only. A person makes every decision."
+  },
+  {
+    "id": "past-005",
+    "name": "Past applicant 5",
+    "group": "Review first",
+    "score": 0.94,
+    "coverage": 1.0,
+    "strongest": [
+      {
+        "text": "Past applicant 5: evidence for multimodal_scale",
+        "url": ""
+      },
+      {
+        "text": "Past applicant 5: evidence for training",
+        "url": ""
+      }
+    ],
+    "gaps": [],
+    "problems": [],
+    "note": "",
+    "ashby_note": "[Rubric review: ML Engineer, Multimodal Data] Group: Review first (score 0.94, 100% of the rubric assessable).\nStrong: Past applicant 5: evidence for multimodal_scale\nStrong: Past applicant 5: evidence for training\nPrioritization aid only. A person makes every decision."
+  },
+  {
+    "id": "past-012",
+    "name": "Past applicant 12",
+    "group": "Review first",
+    "score": 0.89,
+    "coverage": 1.0,
+    "strongest": [
+      {
+        "text": "Past applicant 12: evidence for multimodal_scale",
+        "url": ""
+      },
+      {
+        "text": "Past applicant 12: evidence for training",
+        "url": ""
+      }
+    ],
+    "gaps": [
+      "Ownership in small, fast teams: nothing found"
+    ],
+    "problems": [],
+    "note": "",
+    "ashby_note": "[Rubric review: ML Engineer, Multimodal Data] Group: Review first (score 0.89, 100% of the rubric assessable).\nStrong: Past applicant 12: evidence for multimodal_scale\nStrong: Past applicant 12: evidence for training\nOpen: Ownership in small, fast teams: nothing found\nPrioritization aid only. A person makes every decision."
+  },
+  {
+    "id": "past-002",
+    "name": "Past applicant 2",
+    "group": "Review first",
+    "score": 0.89,
+    "coverage": 1.0,
+    "strongest": [
+      {
+        "text": "Past applicant 2: evidence for multimodal_scale",
+        "url": ""
+      },
+      {
+        "text": "Past applicant 2: evidence for training",
+        "url": ""
+      }
+    ],
+    "gaps": [
+      "Ownership in small, fast teams: nothing found"
+    ],
+    "problems": [],
+    "note": "",
+    "ashby_note": "[Rubric review: ML Engineer, Multimodal Data] Group: Review first (score 0.89, 100% of the rubric assessable).\nStrong: Past applicant 2: evidence for multimodal_scale\nStrong: Past applicant 2: evidence for training\nOpen: Ownership in small, fast teams: nothing found\nPrioritization aid only. A person makes every decision."
+  },
+  {
+    "id": "past-003",
+    "name": "Past applicant 3",
+    "group": "Review first",
+    "score": 0.89,
+    "coverage": 1.0,
+    "strongest": [
+      {
+        "text": "Past applicant 3: evidence for multimodal_scale",
+        "url": ""
+      },
+      {
+        "text": "Past applicant 3: evidence for training",
+        "url": ""
+      }
+    ],
+    "gaps": [
+      "Ownership in small, fast teams: nothing found"
+    ],
+    "problems": [],
+    "note": "",
+    "ashby_note": "[Rubric review: ML Engineer, Multimodal Data] Group: Review first (score 0.89, 100% of the rubric assessable).\nStrong: Past applicant 3: evidence for multimodal_scale\nStrong: Past applicant 3: evidence for training\nOpen: Ownership in small, fast teams: nothing found\nPrioritization aid only. A person makes every decision."
+  },
+  {
+    "id": "past-006",
+    "name": "Past applicant 6",
+    "group": "Review first",
+    "score": 0.89,
+    "coverage": 1.0,
+    "strongest": [
+      {
+        "text": "Past applicant 6: evidence for multimodal_scale",
+        "url": ""
+      },
+      {
+        "text": "Past applicant 6: evidence for training",
+        "url": ""
+      }
+    ],
+    "gaps": [],
+    "problems": [],
+    "note": "",
+    "ashby_note": "[Rubric review: ML Engineer, Multimodal Data] Group: Review first (score 0.89, 100% of the rubric assessable).\nStrong: Past applicant 6: evidence for multimodal_scale\nStrong: Past applicant 6: evidence for training\nPrioritization aid only. A person makes every decision."
+  },
+  {
+    "id": "past-004",
+    "name": "Past applicant 4",
+    "group": "Review first",
+    "score": 0.78,
+    "coverage": 1.0,
+    "strongest": [
+      {
+        "text": "Past applicant 4: evidence for multimodal_scale",
+        "url": ""
+      },
+      {
+        "text": "Past applicant 4: evidence for training",
+        "url": ""
+      }
+    ],
+    "gaps": [
+      "Open-source contributions: nothing found",
+      "Ownership in small, fast teams: nothing found"
+    ],
+    "problems": [],
+    "note": "",
+    "ashby_note": "[Rubric review: ML Engineer, Multimodal Data] Group: Review first (score 0.78, 100% of the rubric assessable).\nStrong: Past applicant 4: evidence for multimodal_scale\nStrong: Past applicant 4: evidence for training\nOpen: Open-source contributions: nothing found\nOpen: Ownership in small, fast teams: nothing found\nPrioritization aid only. A person makes every decision."
+  },
+  {
+    "id": "past-007",
+    "name": "Past applicant 7",
+    "group": "Review first",
+    "score": 0.78,
+    "coverage": 1.0,
+    "strongest": [
+      {
+        "text": "Past applicant 7: evidence for multimodal_scale",
+        "url": ""
+      },
+      {
+        "text": "Past applicant 7: evidence for open_source",
+        "url": ""
+      }
+    ],
+    "gaps": [],
+    "problems": [],
+    "note": "",
+    "ashby_note": "[Rubric review: ML Engineer, Multimodal Data] Group: Review first (score 0.78, 100% of the rubric assessable).\nStrong: Past applicant 7: evidence for multimodal_scale\nStrong: Past applicant 7: evidence for open_source\nPrioritization aid only. A person makes every decision."
+  },
+  {
+    "id": "past-010",
+    "name": "Past applicant 10",
+    "group": "Review first",
+    "score": 0.72,
+    "coverage": 1.0,
+    "strongest": [
+      {
+        "text": "Past applicant 10: evidence for training",
+        "url": ""
+      },
+      {
+        "text": "Past applicant 10: evidence for open_source",
+        "url": ""
+      }
+    ],
+    "gaps": [],
+    "problems": [],
+    "note": "",
+    "ashby_note": "[Rubric review: ML Engineer, Multimodal Data] Group: Review first (score 0.72, 100% of the rubric assessable).\nStrong: Past applicant 10: evidence for training\nStrong: Past applicant 10: evidence for open_source\nPrioritization aid only. A person makes every decision."
+  },
+  {
+    "id": "past-008",
+    "name": "Past applicant 8",
+    "group": "Review first",
+    "score": 0.72,
+    "coverage": 1.0,
+    "strongest": [
+      {
+        "text": "Past applicant 8: evidence for training",
+        "url": ""
+      },
+      {
+        "text": "Past applicant 8: evidence for data_quality",
+        "url": ""
+      }
+    ],
+    "gaps": [
+      "Ownership in small, fast teams: nothing found"
+    ],
+    "problems": [],
+    "note": "",
+    "ashby_note": "[Rubric review: ML Engineer, Multimodal Data] Group: Review first (score 0.72, 100% of the rubric assessable).\nStrong: Past applicant 8: evidence for training\nStrong: Past applicant 8: evidence for data_quality\nOpen: Ownership in small, fast teams: nothing found\nPrioritization aid only. A person makes every decision."
+  },
+  {
+    "id": "past-009",
+    "name": "Past applicant 9",
+    "group": "Review",
+    "score": 0.61,
+    "coverage": 1.0,
+    "strongest": [
+      {
+        "text": "Past applicant 9: evidence for multimodal_scale",
+        "url": ""
+      },
+      {
+        "text": "Past applicant 9: evidence for training",
+        "url": ""
+      }
+    ],
+    "gaps": [
+      "Judgment about what makes data useful for training: nothing found",
+      "Ownership in small, fast teams: nothing found"
+    ],
+    "problems": [],
+    "note": "",
+    "ashby_note": "[Rubric review: ML Engineer, Multimodal Data] Group: Review (score 0.61, 100% of the rubric assessable).\nStrong: Past applicant 9: evidence for multimodal_scale\nStrong: Past applicant 9: evidence for training\nOpen: Judgment about what makes data useful for training: nothing found\nOpen: Ownership in small, fast teams: nothing found\nPrioritization aid only. A person makes every decision."
+  },
+  {
+    "id": "past-023",
+    "name": "Past applicant 23",
+    "group": "Review",
+    "score": 0.56,
+    "coverage": 1.0,
+    "strongest": [
+      {
+        "text": "Past applicant 23: evidence for multimodal_scale",
+        "url": ""
+      }
+    ],
+    "gaps": [
+      "Open-source contributions: nothing found",
+      "Ownership in small, fast teams: nothing found"
+    ],
+    "problems": [],
+    "note": "",
+    "ashby_note": "[Rubric review: ML Engineer, Multimodal Data] Group: Review (score 0.56, 100% of the rubric assessable).\nStrong: Past applicant 23: evidence for multimodal_scale\nOpen: Open-source contributions: nothing found\nOpen: Ownership in small, fast teams: nothing found\nPrioritization aid only. A person makes every decision."
+  },
+  {
+    "id": "past-013",
+    "name": "Past applicant 13",
+    "group": "Human check",
+    "score": 0.39,
+    "coverage": 1.0,
+    "strongest": [],
+    "gaps": [
+      "Open-source contributions: nothing found",
+      "Ownership in small, fast teams: nothing found"
+    ],
+    "problems": [],
+    "note": "Low match on this rubric. A person reads it before any decision.",
+    "ashby_note": "[Rubric review: ML Engineer, Multimodal Data] Group: Human check (score 0.39, 100% of the rubric assessable).\nOpen: Open-source contributions: nothing found\nOpen: Ownership in small, fast teams: nothing found\nPrioritization aid only. A person makes every decision."
+  },
+  {
+    "id": "past-024",
+    "name": "Past applicant 24",
+    "group": "Human check",
+    "score": 0.39,
+    "coverage": 1.0,
+    "strongest": [
+      {
+        "text": "Past applicant 24: evidence for data_quality",
+        "url": ""
+      }
+    ],
+    "gaps": [
+      "Large-scale video, audio or multimodal data processing: nothing found",
+      "Ownership in small, fast teams: nothing found"
+    ],
+    "problems": [],
+    "note": "Low match on this rubric. A person reads it before any decision.",
+    "ashby_note": "[Rubric review: ML Engineer, Multimodal Data] Group: Human check (score 0.39, 100% of the rubric assessable).\nStrong: Past applicant 24: evidence for data_quality\nOpen: Large-scale video, audio or multimodal data processing: nothing found\nOpen: Ownership in small, fast teams: nothing found\nPrioritization aid only. A person makes every decision."
+  },
+  {
+    "id": "past-014",
+    "name": "Past applicant 14",
+    "group": "Human check",
+    "score": 0.33,
+    "coverage": 1.0,
+    "strongest": [],
+    "gaps": [
+      "Training models or writing research code: nothing found",
+      "Ownership in small, fast teams: nothing found"
+    ],
+    "problems": [],
+    "note": "Low match on this rubric. A person reads it before any decision.",
+    "ashby_note": "[Rubric review: ML Engineer, Multimodal Data] Group: Human check (score 0.33, 100% of the rubric assessable).\nOpen: Training models or writing research code: nothing found\nOpen: Ownership in small, fast teams: nothing found\nPrioritization aid only. A person makes every decision."
+  },
+  {
+    "id": "past-020",
+    "name": "Past applicant 20",
+    "group": "Human check",
+    "score": 0.28,
+    "coverage": 1.0,
+    "strongest": [],
+    "gaps": [
+      "Judgment about what makes data useful for training: nothing found",
+      "Open-source contributions: nothing found",
+      "Ownership in small, fast teams: nothing found"
+    ],
+    "problems": [],
+    "note": "Low match on this rubric. A person reads it before any decision.",
+    "ashby_note": "[Rubric review: ML Engineer, Multimodal Data] Group: Human check (score 0.28, 100% of the rubric assessable).\nOpen: Judgment about what makes data useful for training: nothing found\nOpen: Open-source contributions: nothing found\nOpen: Ownership in small, fast teams: nothing found\nPrioritization aid only. A person makes every decision."
+  },
+  {
+    "id": "past-022",
+    "name": "Past applicant 22",
+    "group": "Human check",
+    "score": 0.28,
+    "coverage": 1.0,
+    "strongest": [],
+    "gaps": [
+      "Training models or writing research code: nothing found",
+      "Open-source contributions: nothing found",
+      "Ownership in small, fast teams: nothing found"
+    ],
+    "problems": [],
+    "note": "Low match on this rubric. A person reads it before any decision.",
+    "ashby_note": "[Rubric review: ML Engineer, Multimodal Data] Group: Human check (score 0.28, 100% of the rubric assessable).\nOpen: Training models or writing research code: nothing found\nOpen: Open-source contributions: nothing found\nOpen: Ownership in small, fast teams: nothing found\nPrioritization aid only. A person makes every decision."
+  },
+  {
+    "id": "past-017",
+    "name": "Past applicant 17",
+    "group": "Human check",
+    "score": 0.22,
+    "coverage": 1.0,
+    "strongest": [],
+    "gaps": [
+      "Training models or writing research code: nothing found",
+      "Judgment about what makes data useful for training: nothing found",
+      "Open-source contributions: nothing found"
+    ],
+    "problems": [],
+    "note": "Low match on this rubric. A person reads it before any decision.",
+    "ashby_note": "[Rubric review: ML Engineer, Multimodal Data] Group: Human check (score 0.22, 100% of the rubric assessable).\nOpen: Training models or writing research code: nothing found\nOpen: Judgment about what makes data useful for training: nothing found\nOpen: Open-source contributions: nothing found\nPrioritization aid only. A person makes every decision."
+  },
+  {
+    "id": "past-018",
+    "name": "Past applicant 18",
+    "group": "Human check",
+    "score": 0.22,
+    "coverage": 1.0,
+    "strongest": [],
+    "gaps": [
+      "Large-scale video, audio or multimodal data processing: nothing found",
+      "Open-source contributions: nothing found",
+      "Ownership in small, fast teams: nothing found"
+    ],
+    "problems": [],
+    "note": "Low match on this rubric. A person reads it before any decision.",
+    "ashby_note": "[Rubric review: ML Engineer, Multimodal Data] Group: Human check (score 0.22, 100% of the rubric assessable).\nOpen: Large-scale video, audio or multimodal data processing: nothing found\nOpen: Open-source contributions: nothing found\nOpen: Ownership in small, fast teams: nothing found\nPrioritization aid only. A person makes every decision."
+  },
+  {
+    "id": "past-011",
+    "name": "Past applicant 11",
+    "group": "Human check",
+    "score": 0.11,
+    "coverage": 1.0,
+    "strongest": [
+      {
+        "text": "Past applicant 11: evidence for ownership",
+        "url": ""
+      }
+    ],
+    "gaps": [
+      "Large-scale video, audio or multimodal data processing: nothing found",
+      "Training models or writing research code: nothing found",
+      "Judgment about what makes data useful for training: nothing found",
+      "Open-source contributions: nothing found"
+    ],
+    "problems": [],
+    "note": "Low match on this rubric. A person reads it before any decision.",
+    "ashby_note": "[Rubric review: ML Engineer, Multimodal Data] Group: Human check (score 0.11, 100% of the rubric assessable).\nStrong: Past applicant 11: evidence for ownership\nOpen: Large-scale video, audio or multimodal data processing: nothing found\nOpen: Training models or writing research code: nothing found\nOpen: Judgment about what makes data useful for training: nothing found\nOpen: Open-source contributions: nothing found\nPrioritization aid only. A person makes every decision."
+  },
+  {
+    "id": "past-015",
+    "name": "Past applicant 15",
+    "group": "Human check",
+    "score": 0.11,
+    "coverage": 1.0,
+    "strongest": [],
+    "gaps": [
+      "Large-scale video, audio or multimodal data processing: nothing found",
+      "Judgment about what makes data useful for training: nothing found",
+      "Open-source contributions: nothing found",
+      "Ownership in small, fast teams: nothing found"
+    ],
+    "problems": [],
+    "note": "Low match on this rubric. A person reads it before any decision.",
+    "ashby_note": "[Rubric review: ML Engineer, Multimodal Data] Group: Human check (score 0.11, 100% of the rubric assessable).\nOpen: Large-scale video, audio or multimodal data processing: nothing found\nOpen: Judgment about what makes data useful for training: nothing found\nOpen: Open-source contributions: nothing found\nOpen: Ownership in small, fast teams: nothing found\nPrioritization aid only. A person makes every decision."
+  },
+  {
+    "id": "past-019",
+    "name": "Past applicant 19",
+    "group": "Human check",
+    "score": 0.11,
+    "coverage": 1.0,
+    "strongest": [],
+    "gaps": [
+      "Large-scale video, audio or multimodal data processing: nothing found",
+      "Training models or writing research code: nothing found",
+      "Open-source contributions: nothing found",
+      "Ownership in small, fast teams: nothing found"
+    ],
+    "problems": [],
+    "note": "Low match on this rubric. A person reads it before any decision.",
+    "ashby_note": "[Rubric review: ML Engineer, Multimodal Data] Group: Human check (score 0.11, 100% of the rubric assessable).\nOpen: Large-scale video, audio or multimodal data processing: nothing found\nOpen: Training models or writing research code: nothing found\nOpen: Open-source contributions: nothing found\nOpen: Ownership in small, fast teams: nothing found\nPrioritization aid only. A person makes every decision."
+  },
+  {
+    "id": "past-016",
+    "name": "Past applicant 16",
+    "group": "Human check",
+    "score": 0.06,
+    "coverage": 1.0,
+    "strongest": [],
+    "gaps": [
+      "Large-scale video, audio or multimodal data processing: nothing found",
+      "Training models or writing research code: nothing found",
+      "Judgment about what makes data useful for training: nothing found",
+      "Ownership in small, fast teams: nothing found"
+    ],
+    "problems": [],
+    "note": "Low match on this rubric. A person reads it before any decision.",
+    "ashby_note": "[Rubric review: ML Engineer, Multimodal Data] Group: Human check (score 0.06, 100% of the rubric assessable).\nOpen: Large-scale video, audio or multimodal data processing: nothing found\nOpen: Training models or writing research code: nothing found\nOpen: Judgment about what makes data useful for training: nothing found\nOpen: Ownership in small, fast teams: nothing found\nPrioritization aid only. A person makes every decision."
+  },
+  {
+    "id": "past-021",
+    "name": "Past applicant 21",
+    "group": "Human check",
+    "score": 0.0,
+    "coverage": 1.0,
+    "strongest": [],
+    "gaps": [
+      "Large-scale video, audio or multimodal data processing: nothing found",
+      "Training models or writing research code: nothing found",
+      "Judgment about what makes data useful for training: nothing found",
+      "Open-source contributions: nothing found",
+      "Ownership in small, fast teams: nothing found"
+    ],
+    "problems": [],
+    "note": "Low match on this rubric. A person reads it before any decision.",
+    "ashby_note": "[Rubric review: ML Engineer, Multimodal Data] Group: Human check (score 0.00, 100% of the rubric assessable).\nOpen: Large-scale video, audio or multimodal data processing: nothing found\nOpen: Training models or writing research code: nothing found\nOpen: Judgment about what makes data useful for training: nothing found\nOpen: Open-source contributions: nothing found\nOpen: Ownership in small, fast teams: nothing found\nPrioritization aid only. A person makes every decision."
+  }
+]

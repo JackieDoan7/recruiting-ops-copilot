@@ -1,0 +1,865 @@
+{
+  "role": "ML Engineer, Multimodal Data",
+  "_note": "Made-up past applicants for the backtest demo.",
+  "candidates": [
+    {
+      "id": "past-001",
+      "name": "Past applicant 1",
+      "ratings": {
+        "multimodal_scale": {
+          "rating": "strong",
+          "evidence": [
+            {
+              "text": "Past applicant 1: evidence for multimodal_scale"
+            }
+          ]
+        },
+        "training": {
+          "rating": "strong",
+          "evidence": [
+            {
+              "text": "Past applicant 1: evidence for training"
+            }
+          ]
+        },
+        "data_quality": {
+          "rating": "strong",
+          "evidence": [
+            {
+              "text": "Past applicant 1: evidence for data_quality"
+            }
+          ]
+        },
+        "open_source": {
+          "rating": "strong",
+          "evidence": [
+            {
+              "text": "Past applicant 1: evidence for open_source"
+            }
+          ]
+        },
+        "ownership": {
+          "rating": "strong",
+          "evidence": [
+            {
+              "text": "Past applicant 1: evidence for ownership"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "past-002",
+      "name": "Past applicant 2",
+      "ratings": {
+        "multimodal_scale": {
+          "rating": "strong",
+          "evidence": [
+            {
+              "text": "Past applicant 2: evidence for multimodal_scale"
+            }
+          ]
+        },
+        "training": {
+          "rating": "strong",
+          "evidence": [
+            {
+              "text": "Past applicant 2: evidence for training"
+            }
+          ]
+        },
+        "data_quality": {
+          "rating": "strong",
+          "evidence": [
+            {
+              "text": "Past applicant 2: evidence for data_quality"
+            }
+          ]
+        },
+        "open_source": {
+          "rating": "strong",
+          "evidence": [
+            {
+              "text": "Past applicant 2: evidence for open_source"
+            }
+          ]
+        },
+        "ownership": {
+          "rating": "none"
+        }
+      }
+    },
+    {
+      "id": "past-003",
+      "name": "Past applicant 3",
+      "ratings": {
+        "multimodal_scale": {
+          "rating": "strong",
+          "evidence": [
+            {
+              "text": "Past applicant 3: evidence for multimodal_scale"
+            }
+          ]
+        },
+        "training": {
+          "rating": "strong",
+          "evidence": [
+            {
+              "text": "Past applicant 3: evidence for training"
+            }
+          ]
+        },
+        "data_quality": {
+          "rating": "strong",
+          "evidence": [
+            {
+              "text": "Past applicant 3: evidence for data_quality"
+            }
+          ]
+        },
+        "open_source": {
+          "rating": "strong",
+          "evidence": [
+            {
+              "text": "Past applicant 3: evidence for open_source"
+            }
+          ]
+        },
+        "ownership": {
+          "rating": "none"
+        }
+      }
+    },
+    {
+      "id": "past-004",
+      "name": "Past applicant 4",
+      "ratings": {
+        "multimodal_scale": {
+          "rating": "strong",
+          "evidence": [
+            {
+              "text": "Past applicant 4: evidence for multimodal_scale"
+            }
+          ]
+        },
+        "training": {
+          "rating": "strong",
+          "evidence": [
+            {
+              "text": "Past applicant 4: evidence for training"
+            }
+          ]
+        },
+        "data_quality": {
+          "rating": "strong",
+          "evidence": [
+            {
+              "text": "Past applicant 4: evidence for data_quality"
+            }
+          ]
+        },
+        "open_source": {
+          "rating": "none"
+        },
+        "ownership": {
+          "rating": "none"
+        }
+      }
+    },
+    {
+      "id": "past-005",
+      "name": "Past applicant 5",
+      "ratings": {
+        "multimodal_scale": {
+          "rating": "strong",
+          "evidence": [
+            {
+              "text": "Past applicant 5: evidence for multimodal_scale"
+            }
+          ]
+        },
+        "training": {
+          "rating": "strong",
+          "evidence": [
+            {
+              "text": "Past applicant 5: evidence for training"
+            }
+          ]
+        },
+        "data_quality": {
+          "rating": "strong",
+          "evidence": [
+            {
+              "text": "Past applicant 5: evidence for data_quality"
+            }
+          ]
+        },
+        "open_source": {
+          "rating": "some",
+          "evidence": [
+            {
+              "text": "Past applicant 5: evidence for open_source"
+            }
+          ]
+        },
+        "ownership": {
+          "rating": "strong",
+          "evidence": [
+            {
+              "text": "Past applicant 5: evidence for ownership"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "past-006",
+      "name": "Past applicant 6",
+      "ratings": {
+        "multimodal_scale": {
+          "rating": "strong",
+          "evidence": [
+            {
+              "text": "Past applicant 6: evidence for multimodal_scale"
+            }
+          ]
+        },
+        "training": {
+          "rating": "strong",
+          "evidence": [
+            {
+              "text": "Past applicant 6: evidence for training"
+            }
+          ]
+        },
+        "data_quality": {
+          "rating": "some",
+          "evidence": [
+            {
+              "text": "Past applicant 6: evidence for data_quality"
+            }
+          ]
+        },
+        "open_source": {
+          "rating": "strong",
+          "evidence": [
+            {
+              "text": "Past applicant 6: evidence for open_source"
+            }
+          ]
+        },
+        "ownership": {
+          "rating": "strong",
+          "evidence": [
+            {
+              "text": "Past applicant 6: evidence for ownership"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "past-007",
+      "name": "Past applicant 7",
+      "ratings": {
+        "multimodal_scale": {
+          "rating": "strong",
+          "evidence": [
+            {
+              "text": "Past applicant 7: evidence for multimodal_scale"
+            }
+          ]
+        },
+        "training": {
+          "rating": "some",
+          "evidence": [
+            {
+              "text": "Past applicant 7: evidence for training"
+            }
+          ]
+        },
+        "data_quality": {
+          "rating": "some",
+          "evidence": [
+            {
+              "text": "Past applicant 7: evidence for data_quality"
+            }
+          ]
+        },
+        "open_source": {
+          "rating": "strong",
+          "evidence": [
+            {
+              "text": "Past applicant 7: evidence for open_source"
+            }
+          ]
+        },
+        "ownership": {
+          "rating": "strong",
+          "evidence": [
+            {
+              "text": "Past applicant 7: evidence for ownership"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "past-008",
+      "name": "Past applicant 8",
+      "ratings": {
+        "multimodal_scale": {
+          "rating": "some",
+          "evidence": [
+            {
+              "text": "Past applicant 8: evidence for multimodal_scale"
+            }
+          ]
+        },
+        "training": {
+          "rating": "strong",
+          "evidence": [
+            {
+              "text": "Past applicant 8: evidence for training"
+            }
+          ]
+        },
+        "data_quality": {
+          "rating": "strong",
+          "evidence": [
+            {
+              "text": "Past applicant 8: evidence for data_quality"
+            }
+          ]
+        },
+        "open_source": {
+          "rating": "strong",
+          "evidence": [
+            {
+              "text": "Past applicant 8: evidence for open_source"
+            }
+          ]
+        },
+        "ownership": {
+          "rating": "none"
+        }
+      }
+    },
+    {
+      "id": "past-009",
+      "name": "Past applicant 9",
+      "ratings": {
+        "multimodal_scale": {
+          "rating": "strong",
+          "evidence": [
+            {
+              "text": "Past applicant 9: evidence for multimodal_scale"
+            }
+          ]
+        },
+        "training": {
+          "rating": "strong",
+          "evidence": [
+            {
+              "text": "Past applicant 9: evidence for training"
+            }
+          ]
+        },
+        "data_quality": {
+          "rating": "none"
+        },
+        "open_source": {
+          "rating": "some",
+          "evidence": [
+            {
+              "text": "Past applicant 9: evidence for open_source"
+            }
+          ]
+        },
+        "ownership": {
+          "rating": "none"
+        }
+      }
+    },
+    {
+      "id": "past-010",
+      "name": "Past applicant 10",
+      "ratings": {
+        "multimodal_scale": {
+          "rating": "some",
+          "evidence": [
+            {
+              "text": "Past applicant 10: evidence for multimodal_scale"
+            }
+          ]
+        },
+        "training": {
+          "rating": "strong",
+          "evidence": [
+            {
+              "text": "Past applicant 10: evidence for training"
+            }
+          ]
+        },
+        "data_quality": {
+          "rating": "some",
+          "evidence": [
+            {
+              "text": "Past applicant 10: evidence for data_quality"
+            }
+          ]
+        },
+        "open_source": {
+          "rating": "strong",
+          "evidence": [
+            {
+              "text": "Past applicant 10: evidence for open_source"
+            }
+          ]
+        },
+        "ownership": {
+          "rating": "strong",
+          "evidence": [
+            {
+              "text": "Past applicant 10: evidence for ownership"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "past-011",
+      "name": "Past applicant 11",
+      "ratings": {
+        "multimodal_scale": {
+          "rating": "none"
+        },
+        "training": {
+          "rating": "none"
+        },
+        "data_quality": {
+          "rating": "none"
+        },
+        "open_source": {
+          "rating": "none"
+        },
+        "ownership": {
+          "rating": "strong",
+          "evidence": [
+            {
+              "text": "Past applicant 11: evidence for ownership"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "past-012",
+      "name": "Past applicant 12",
+      "ratings": {
+        "multimodal_scale": {
+          "rating": "strong",
+          "evidence": [
+            {
+              "text": "Past applicant 12: evidence for multimodal_scale"
+            }
+          ]
+        },
+        "training": {
+          "rating": "strong",
+          "evidence": [
+            {
+              "text": "Past applicant 12: evidence for training"
+            }
+          ]
+        },
+        "data_quality": {
+          "rating": "strong",
+          "evidence": [
+            {
+              "text": "Past applicant 12: evidence for data_quality"
+            }
+          ]
+        },
+        "open_source": {
+          "rating": "strong",
+          "evidence": [
+            {
+              "text": "Past applicant 12: evidence for open_source"
+            }
+          ]
+        },
+        "ownership": {
+          "rating": "none"
+        }
+      }
+    },
+    {
+      "id": "past-013",
+      "name": "Past applicant 13",
+      "ratings": {
+        "multimodal_scale": {
+          "rating": "some",
+          "evidence": [
+            {
+              "text": "Past applicant 13: evidence for multimodal_scale"
+            }
+          ]
+        },
+        "training": {
+          "rating": "some",
+          "evidence": [
+            {
+              "text": "Past applicant 13: evidence for training"
+            }
+          ]
+        },
+        "data_quality": {
+          "rating": "some",
+          "evidence": [
+            {
+              "text": "Past applicant 13: evidence for data_quality"
+            }
+          ]
+        },
+        "open_source": {
+          "rating": "none"
+        },
+        "ownership": {
+          "rating": "none"
+        }
+      }
+    },
+    {
+      "id": "past-014",
+      "name": "Past applicant 14",
+      "ratings": {
+        "multimodal_scale": {
+          "rating": "some",
+          "evidence": [
+            {
+              "text": "Past applicant 14: evidence for multimodal_scale"
+            }
+          ]
+        },
+        "training": {
+          "rating": "none"
+        },
+        "data_quality": {
+          "rating": "some",
+          "evidence": [
+            {
+              "text": "Past applicant 14: evidence for data_quality"
+            }
+          ]
+        },
+        "open_source": {
+          "rating": "some",
+          "evidence": [
+            {
+              "text": "Past applicant 14: evidence for open_source"
+            }
+          ]
+        },
+        "ownership": {
+          "rating": "none"
+        }
+      }
+    },
+    {
+      "id": "past-015",
+      "name": "Past applicant 15",
+      "ratings": {
+        "multimodal_scale": {
+          "rating": "none"
+        },
+        "training": {
+          "rating": "some",
+          "evidence": [
+            {
+              "text": "Past applicant 15: evidence for training"
+            }
+          ]
+        },
+        "data_quality": {
+          "rating": "none"
+        },
+        "open_source": {
+          "rating": "none"
+        },
+        "ownership": {
+          "rating": "none"
+        }
+      }
+    },
+    {
+      "id": "past-016",
+      "name": "Past applicant 16",
+      "ratings": {
+        "multimodal_scale": {
+          "rating": "none"
+        },
+        "training": {
+          "rating": "none"
+        },
+        "data_quality": {
+          "rating": "none"
+        },
+        "open_source": {
+          "rating": "some",
+          "evidence": [
+            {
+              "text": "Past applicant 16: evidence for open_source"
+            }
+          ]
+        },
+        "ownership": {
+          "rating": "none"
+        }
+      }
+    },
+    {
+      "id": "past-017",
+      "name": "Past applicant 17",
+      "ratings": {
+        "multimodal_scale": {
+          "rating": "some",
+          "evidence": [
+            {
+              "text": "Past applicant 17: evidence for multimodal_scale"
+            }
+          ]
+        },
+        "training": {
+          "rating": "none"
+        },
+        "data_quality": {
+          "rating": "none"
+        },
+        "open_source": {
+          "rating": "none"
+        },
+        "ownership": {
+          "rating": "some",
+          "evidence": [
+            {
+              "text": "Past applicant 17: evidence for ownership"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "past-018",
+      "name": "Past applicant 18",
+      "ratings": {
+        "multimodal_scale": {
+          "rating": "none"
+        },
+        "training": {
+          "rating": "some",
+          "evidence": [
+            {
+              "text": "Past applicant 18: evidence for training"
+            }
+          ]
+        },
+        "data_quality": {
+          "rating": "some",
+          "evidence": [
+            {
+              "text": "Past applicant 18: evidence for data_quality"
+            }
+          ]
+        },
+        "open_source": {
+          "rating": "none"
+        },
+        "ownership": {
+          "rating": "none"
+        }
+      }
+    },
+    {
+      "id": "past-019",
+      "name": "Past applicant 19",
+      "ratings": {
+        "multimodal_scale": {
+          "rating": "none"
+        },
+        "training": {
+          "rating": "none"
+        },
+        "data_quality": {
+          "rating": "some",
+          "evidence": [
+            {
+              "text": "Past applicant 19: evidence for data_quality"
+            }
+          ]
+        },
+        "open_source": {
+          "rating": "none"
+        },
+        "ownership": {
+          "rating": "none"
+        }
+      }
+    },
+    {
+      "id": "past-020",
+      "name": "Past applicant 20",
+      "ratings": {
+        "multimodal_scale": {
+          "rating": "some",
+          "evidence": [
+            {
+              "text": "Past applicant 20: evidence for multimodal_scale"
+            }
+          ]
+        },
+        "training": {
+          "rating": "some",
+          "evidence": [
+            {
+              "text": "Past applicant 20: evidence for training"
+            }
+          ]
+        },
+        "data_quality": {
+          "rating": "none"
+        },
+        "open_source": {
+          "rating": "none"
+        },
+        "ownership": {
+          "rating": "none"
+        }
+      }
+    },
+    {
+      "id": "past-021",
+      "name": "Past applicant 21",
+      "ratings": {
+        "multimodal_scale": {
+          "rating": "none"
+        },
+        "training": {
+          "rating": "none"
+        },
+        "data_quality": {
+          "rating": "none"
+        },
+        "open_source": {
+          "rating": "none"
+        },
+        "ownership": {
+          "rating": "none"
+        }
+      }
+    },
+    {
+      "id": "past-022",
+      "name": "Past applicant 22",
+      "ratings": {
+        "multimodal_scale": {
+          "rating": "some",
+          "evidence": [
+            {
+              "text": "Past applicant 22: evidence for multimodal_scale"
+            }
+          ]
+        },
+        "training": {
+          "rating": "none"
+        },
+        "data_quality": {
+          "rating": "some",
+          "evidence": [
+            {
+              "text": "Past applicant 22: evidence for data_quality"
+            }
+          ]
+        },
+        "open_source": {
+          "rating": "none"
+        },
+        "ownership": {
+          "rating": "none"
+        }
+      }
+    },
+    {
+      "id": "past-023",
+      "name": "Past applicant 23",
+      "ratings": {
+        "multimodal_scale": {
+          "rating": "strong",
+          "evidence": [
+            {
+              "text": "Past applicant 23: evidence for multimodal_scale"
+            }
+          ]
+        },
+        "training": {
+          "rating": "some",
+          "evidence": [
+            {
+              "text": "Past applicant 23: evidence for training"
+            }
+          ]
+        },
+        "data_quality": {
+          "rating": "some",
+          "evidence": [
+            {
+              "text": "Past applicant 23: evidence for data_quality"
+            }
+          ]
+        },
+        "open_source": {
+          "rating": "none"
+        },
+        "ownership": {
+          "rating": "none"
+        }
+      }
+    },
+    {
+      "id": "past-024",
+      "name": "Past applicant 24",
+      "ratings": {
+        "multimodal_scale": {
+          "rating": "none"
+        },
+        "training": {
+          "rating": "some",
+          "evidence": [
+            {
+              "text": "Past applicant 24: evidence for training"
+            }
+          ]
+        },
+        "data_quality": {
+          "rating": "strong",
+          "evidence": [
+            {
+              "text": "Past applicant 24: evidence for data_quality"
+            }
+          ]
+        },
+        "open_source": {
+          "rating": "some",
+          "evidence": [
+            {
+              "text": "Past applicant 24: evidence for open_source"
+            }
+          ]
+        },
+        "ownership": {
+          "rating": "none"
+        }
+      }
+    }
+  ]
+}

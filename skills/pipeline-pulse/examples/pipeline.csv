@@ -1,0 +1,13 @@
+candidate,email,role,stage,last_activity,next_interview,interview_completed_at,feedback,notes,owner,status
+Maya Okonkwo,maya.o@example.com,ML Engineer,Technical Interview,2026-10-16T11:00-07:00,,,Passed tech,"Strong, hiring manager is excited",Jordan,Active
+Leo Martins,leo.m@example.com,Forward Deployed Engineer,Recruiter Screen,2026-11-07T15:00-08:00,2026-11-10T10:00-08:00,,,Scheduled for Tuesday,Jordan,Active
+Ana Lima,ana.lima@example.com,Forward Deployed Engineer,Initial Screen,2026-10-29T10:00-07:00,,,,old record,,Active
+Ana Lima,ana.lima@example.com,Forward Deployed Engineer,Technical Interview,2026-11-07T13:00-08:00,2026-11-11T09:00-08:00,,,Tech round booked,Jordan,Active
+Sam Rivera,sam.r@example.com,Data Engineer,On Site,2026-10-23T17:00-07:00,,2026-10-23T16:00-07:00,None,Onsite completed,Jordan,Active
+Grace Huang,grace.h@example.com,ML Engineer,Availability Submitted,2026-10-20T09:00-07:00,,,,Submitted availability for Oct 21-23,Jordan,Active
+Omar Haddad,omar.h@example.com,Forward Deployed Engineer,Technical Interview,2026-11-04T10:00-08:00,,,,"Comp expectation $240k base, keep confidential",Jordan,Active
+Ben Carter,ben.c@example.com,ML Engineer,Initial Screen,1 day ago,,,,"London, flexible",Jordan,Active
+Nora Lind,nora.l@example.com,Reliability Engineer,Final Interview,2026-11-03T15:00-08:00,,,"Not a fit, per GM",GM passed after final,Riley,Active
+Ivy Chen,ivy.c@example.com,Software Engineer,On Site,2026-11-06T15:00-08:00,,2026-11-06T15:00-08:00,None,Onsite went smoothly,Jordan,Active
+Ethan Park,ethan.p@example.com,Software Engineer,On Site,2026-11-06T10:00-08:00,2026-11-13T09:00-08:00,,,Onsite Friday,Jordan,Active
+Zoe Patel,zoe.p@example.com,Software Engineer,Offer,2026-10-01T10:00-07:00,,,Hired,Accepted offer,Jordan,Hired

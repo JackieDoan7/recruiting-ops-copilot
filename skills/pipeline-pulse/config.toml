@@ -1,0 +1,27 @@
+# Pipeline Pulse settings. Anything left out uses the defaults in pipeline_pulse.py.
+
+[sla]
+stale_hours = 72            # every active candidate hears something within 72 hours
+feedback_hours = 24         # scorecards due a day after an interview
+availability_hours = 48     # book within 2 days of getting availability
+feedback_escalate_days = 7  # missing feedback past this becomes a decision
+
+# Map your ATS stage names (lowercase) to a kind. Kinds: review, screen,
+# availability, interview, onsite, final, offer. Later kinds rank higher.
+[stages.kinds]
+"application review" = "review"
+"recruiter screen" = "screen"
+"initial screen" = "screen"
+"availability submitted" = "availability"
+"technical interview" = "interview"
+"role specific tech" = "interview"
+"on site" = "onsite"
+"onsite" = "onsite"
+"final interview" = "final"
+"gm interview" = "final"
+"reference check" = "offer"
+"offer" = "offer"
+
+[signals]
+strong = ["strong", "liked", "top candidate", "priority", "excited", "great"]
+passed = ["not a fit", "no hire", "no-hire", "rejected", "reject", "passing on", "decided to pass", "we'll pass"]  # read from feedback only

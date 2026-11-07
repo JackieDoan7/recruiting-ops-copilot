@@ -1,0 +1,73 @@
+{
+  "name": "Applicant A",
+  "affiliation": "Example University",
+  "_note": "Made-up person and links, in the format gather_sources.py writes.",
+  "sources": [
+    {
+      "kind": "profile",
+      "title": "Link from the application",
+      "url": "https://example-a.example.org",
+      "date": "",
+      "venue": "",
+      "citations": null,
+      "stars": null,
+      "summary": "",
+      "authors": [],
+      "confidence": "verified",
+      "why": "provided by the candidate"
+    },
+    {
+      "kind": "repo",
+      "title": "example-a/fastclip",
+      "url": "https://code.example.org/example-a/fastclip",
+      "date": "2026-10-28",
+      "venue": "GitHub",
+      "citations": null,
+      "stars": 1840,
+      "summary": "GPU-accelerated video decoding and clip sampling for training pipelines",
+      "authors": [],
+      "confidence": "verified",
+      "why": "GitHub handle 'example-a' from the application"
+    },
+    {
+      "kind": "paper",
+      "title": "Motion-Aware Filtering of Web Video for Video-Language Pretraining",
+      "url": "https://papers.example.org/motion-aware-filtering",
+      "date": "2026-10-06",
+      "venue": "arXiv",
+      "citations": 3,
+      "stars": null,
+      "summary": "Scores 40M web clips for motion quality before captioning and shows the filtered set improves retrieval.",
+      "authors": ["Applicant A", "Coauthor One", "Advisor Two"],
+      "confidence": "likely",
+      "why": "name and affiliation (Example University) match"
+    },
+    {
+      "kind": "paper",
+      "title": "Cheap Captions, Costly Mistakes: Auditing Synthetic Video Captions",
+      "url": "https://papers.example.org/cheap-captions",
+      "date": "2025-02-14",
+      "venue": "CVPR Workshop",
+      "citations": 41,
+      "stars": null,
+      "summary": "",
+      "authors": ["Applicant A", "Coauthor Three"],
+      "confidence": "likely",
+      "why": "Semantic Scholar profile matched on name and affiliation"
+    },
+    {
+      "kind": "paper",
+      "title": "Robust Speech Recognition in Noisy Clinics",
+      "url": "https://papers.example.org/noisy-clinics-asr",
+      "date": "2024-03-01",
+      "venue": "arXiv",
+      "citations": 12,
+      "stars": null,
+      "summary": "",
+      "authors": ["A. Applicant", "Other Person"],
+      "confidence": "unconfirmed",
+      "why": "name match only: check before using"
+    }
+  ],
+  "notes": ["Matched Semantic Scholar author 000000 (likely)."]
+}

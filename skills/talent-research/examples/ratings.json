@@ -1,0 +1,151 @@
+{
+  "role": "ML Engineer, Multimodal Data",
+  "_note": "Made-up applicants and links, to show the format.",
+  "candidates": [
+    {
+      "id": "app-101",
+      "name": "Applicant A",
+      "ratings": {
+        "multimodal_scale": {
+          "rating": "strong",
+          "evidence": [
+            {
+              "text": "First author on a paper filtering 40M web video clips for training",
+              "url": "https://papers.example.org/motion-aware-filtering"
+            }
+          ]
+        },
+        "training": {
+          "rating": "strong",
+          "evidence": [
+            {
+              "text": "Trained the video-text model used in the paper's ablations",
+              "url": "https://papers.example.org/motion-aware-filtering"
+            }
+          ]
+        },
+        "data_quality": {
+          "rating": "strong",
+          "evidence": [
+            {
+              "text": "Ablation shows motion-quality filter improves downstream retrieval",
+              "url": "https://papers.example.org/motion-aware-filtering"
+            }
+          ]
+        },
+        "open_source": {
+          "rating": "some",
+          "evidence": [
+            {
+              "text": "Maintains a video-decoding utility repo",
+              "url": "https://code.example.org/example-a/fastclip"
+            }
+          ]
+        },
+        "ownership": {
+          "rating": "unclear"
+        }
+      }
+    },
+    {
+      "id": "app-102",
+      "name": "Applicant B",
+      "ratings": {
+        "multimodal_scale": {
+          "rating": "some",
+          "evidence": [
+            {
+              "text": "Resume: ran Spark pipelines over 300 TB of clickstream data (not video)"
+            }
+          ]
+        },
+        "training": {
+          "rating": "some",
+          "evidence": [
+            {
+              "text": "Resume: built evaluation harness for ranking models"
+            }
+          ]
+        },
+        "data_quality": {
+          "rating": "strong",
+          "evidence": [
+            {
+              "text": "Resume: designed dedup + quality scoring that cut training set 30% with no metric loss"
+            }
+          ]
+        },
+        "open_source": {
+          "rating": "none"
+        },
+        "ownership": {
+          "rating": "strong",
+          "evidence": [
+            {
+              "text": "Resume: second engineer at a 6-person startup, owned the data platform"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "app-103",
+      "name": "Applicant C",
+      "ratings": {
+        "multimodal_scale": {
+          "rating": "none"
+        },
+        "training": {
+          "rating": "strong",
+          "evidence": [
+            {
+              "text": "Two first-author NLP papers with released training code",
+              "url": "https://papers.example.org/applicant-c-nlp"
+            }
+          ]
+        },
+        "data_quality": {
+          "rating": "none"
+        },
+        "open_source": {
+          "rating": "some",
+          "evidence": [
+            {
+              "text": "Released training code for both papers",
+              "url": "https://code.example.org/example-c/nlp-ft"
+            }
+          ]
+        },
+        "ownership": {
+          "rating": "none"
+        }
+      }
+    },
+    {
+      "id": "app-104",
+      "name": "Applicant D",
+      "ratings": {
+        "multimodal_scale": {
+          "rating": "strong"
+        },
+        "training": {
+          "rating": "unclear"
+        },
+        "data_quality": {
+          "rating": "unclear"
+        },
+        "open_source": {
+          "rating": "unclear"
+        },
+        "ownership": {
+          "rating": "some",
+          "evidence": [
+            {
+              "text": "Resume: led a 3-person team"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

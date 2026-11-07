@@ -1,0 +1,13 @@
+Item,Category,Vendor,Link or ASIN,Pack size (units),Amount per person (units),Scales with,Fixed target (units),On hand (units),On order (units),Est. price per pack ($)
+"Copy paper, 10 reams",Office,Amazon,https://www.amazon.com/dp/B01FV0F13E,10,0,"Everyone, per week",6,3,0,70
+"Disinfecting wipes, 3 x 75",Cleaning,Amazon,https://www.amazon.com/dp/B00HSC9F2C,3,0.1,"Everyone, per week",,2,0,15
+"KIND bars, dark chocolate, 12 ct",Snacks,Amazon,https://www.amazon.com/dp/B007PE7ANY,12,1.5,"Everyone, per week",,20,0,16
+"LaCroix lime, 12 cans",Drinks,Amazon,https://www.amazon.com/dp/B07812QWNH,12,3,"Everyone, per week",,60,96,7
+"LaCroix variety, 24 cans",Drinks,Costco Business Delivery,https://www.costcobusinessdelivery.com/lacroix-sparkling-water-variety-pack-12-fl-oz-24-ct.product.100273326.html,24,2,"Everyone, per week",,30,0,15
+Fresh fruit box,Snacks,Local produce vendor,,1,0,,2,0,0,45
+"Sticky notes, 3x3, 24 pads",Office,Amazon,,24,0,,24,30,0,22
+"Washable slippers, teammate pairs",Entryway,Amazon,,1,1,"Team, one each",,0,0,12
+"Washable guest slippers, sized",Entryway,Amazon,,1,1,"Guests, one each",,4,0,12
+Wall-mounted shoe rack (one-time),Entryway,Amazon,,1,0,,6,2,0,60
+Slipper bins with size labels (one-time),Entryway,Amazon,,1,0,,2,0,0,25
+Hamper for used guest slippers (one-time),Entryway,Amazon,,1,0,,1,0,0,30

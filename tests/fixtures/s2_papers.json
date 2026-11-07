@@ -1,0 +1,38 @@
+{
+ "data": [
+  {
+   "paperId": "p1",
+   "title": "Motion-Aware Filtering of Web Video for Video-Language Pretraining",
+   "year": 2026,
+   "publicationDate": "2026-10-06",
+   "venue": "arXiv",
+   "citationCount": 3,
+   "url": "https://www.semanticscholar.org/paper/p1",
+   "externalIds": {
+    "ArXiv": "2699.04211"
+   }
+  },
+  {
+   "paperId": "p2",
+   "title": "Cheap Captions, Costly Mistakes",
+   "year": 2025,
+   "publicationDate": "2025-02-14",
+   "venue": "CVPR Workshop",
+   "citationCount": 41,
+   "url": "https://www.semanticscholar.org/paper/p2",
+   "externalIds": {
+    "ArXiv": "2699.09981"
+   }
+  },
+  {
+   "paperId": "p3",
+   "title": "A Workshop Note",
+   "year": 2024,
+   "publicationDate": null,
+   "venue": "",
+   "citationCount": 1,
+   "url": "https://www.semanticscholar.org/paper/p3",
+   "externalIds": {}
+  }
+ ]
+}
