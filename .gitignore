@@ -1,0 +1,8 @@
+__pycache__/
+.pytest_cache/
+dist/
+*.pyc
+.DS_Store
+.env
+pipeline.csv
+!skills/pipeline-pulse/examples/pipeline.csv
