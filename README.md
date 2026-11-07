@@ -136,7 +136,7 @@ Setup is pasting one file into Apps Script: [`apps-script/README.md`](skills/sup
 Needs Python 3.11 or newer. The scripts use only the standard library; the tests need `pytest`, and Node 18+ for the Apps Script tests.
 
 ```bash
-git clone https://github.com/<your-username>/recruiting-ops-copilot.git
+git clone https://github.com/JackieDoan7/recruiting-ops-copilot.git
 cd recruiting-ops-copilot
 make demo      # regenerates every sample output from the sample data, no keys needed
 pip install pytest && make test
