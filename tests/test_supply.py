@@ -23,7 +23,8 @@ def test_example_order():
 
 def test_entryway_items_scale_the_right_way():
     lines = {l["item"]: l for l in so.compute_order(so.read_inventory(INVENTORY), SETTINGS)}
-    assert lines["Washable slippers, teammate pairs"]["target"] == 54  # 45 teammates + 20% cushion
+    assert lines["Name labels for teammate slipper spots"]["target"] == 54  # 45 teammates + 20% cushion
+    assert lines["Slipper trial pairs (3 kinds, 2 each)"]["packs"] == 6  # a trial first, not 54 pairs
     assert lines["Washable guest slippers, sized"]["target"] == 15  # 12 guests + 20% cushion
     assert lines["Wall-mounted shoe rack (one-time)"]["packs"] == 4  # 6 wanted, 2 already up
     bigger = dict(SETTINGS, headcount=50)

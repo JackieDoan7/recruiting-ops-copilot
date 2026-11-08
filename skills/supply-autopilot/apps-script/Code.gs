@@ -152,7 +152,7 @@ function digestText(lines, cartUrl, handoff) {
              ' (on hand ' + l.onHand + (l.onOrder ? ', on order ' + l.onOrder : '') + ', target ' + l.target + ', ' + l.status.toLowerCase() + ')');
   });
   if (cartUrl) out.push('', 'Amazon: open this link, check the cart, then check out yourself:', cartUrl);
-  if (handoff) out.push('', 'Other vendors: paste this into Claude in Chrome:', '', handoff);
+  if (handoff) out.push('', 'Everything else (other vendors, and Amazon items without a link): paste this into Claude in Chrome:', '', handoff);
   return out.join('\n');
 }
 
@@ -185,7 +185,8 @@ var SAMPLE_ITEMS = [
    24, 2, 'Everyone, per week', '', 30, 0, 15],
   ['Fresh fruit box', 'Snacks', 'Local produce vendor', '', 1, 0, '', 2, 0, 0, 45],
   ['Sticky notes, 3x3, 24 pads', 'Office', 'Amazon', '', 24, 0, '', 24, 30, 0, 22],
-  ['Washable slippers, teammate pairs', 'Entryway', 'Amazon', '', 1, 1, 'Team, one each', '', 0, 0, 12],
+  ['Slipper trial pairs (3 kinds, 2 each)', 'Entryway', 'Amazon', '', 1, 0, '', 6, 0, 0, 15],
+  ['Name labels for teammate slipper spots', 'Entryway', 'Amazon', '', 60, 1, 'Team, one each', '', 0, 0, 9],
   ['Washable guest slippers, sized', 'Entryway', 'Amazon', '', 1, 1, 'Guests, one each', '', 4, 0, 12],
   ['Wall-mounted shoe rack (one-time)', 'Entryway', 'Amazon', '', 1, 0, '', 6, 2, 0, 60],
   ['Slipper bins with size labels (one-time)', 'Entryway', 'Amazon', '', 1, 0, '', 2, 0, 0, 25],
@@ -195,11 +196,12 @@ var FIX_HEADERS = ['Spotted', 'What\'s wrong', 'The fix', 'What to buy (Inventor
 var SAMPLE_FIXES = [
   ['Entryway', 'Only a couple of shoe racks for the whole team, so shoes pile up by the door. Shared one-size ' +
    'slippers from a bulk pack end up scattered around the office.',
-   'Go vertical with wall-mounted racks. Every teammate gets their own washable pair in their size, kept in a ' +
-   'labeled spot. Sized guest bins plus a hamper for used guest pairs. Two-minute end-of-day sweep. ' +
-   'Before buying for everyone, try 3 kinds of slippers with a few teammates for two weeks, then check: ' +
-   'no loose pairs by the door, and people actually like them.',
-   'Entryway rows: wall racks, slippers (team and guest), bins, hamper', 'Office manager', 'To do']
+   'Go vertical with wall-mounted racks. First, try 3 kinds of washable slippers with a few teammates fo' +
+   'r two weeks. Then every teammate gets their own pair of the winner, in their size, in a labeled spot' +
+   ' (add it as a "Team, one each" row, so new hires get a pair automatically). Sized guest bins plus a ' +
+   'hamper for used guest pairs. Two-minute end-of-day sweep. Check back in two weeks: no loose pairs by' +
+   ' the door, and people actually like the slippers.',
+   'Entryway rows: wall racks, slipper trial pairs, name labels, guest slippers, bins, hamper', 'Office manager', 'To do']
 ];
 var VENDOR_HEADERS = ['Category', 'Preferred vendor', 'Backup vendor', 'Contact', 'Notes'];
 var SAMPLE_VENDORS = [

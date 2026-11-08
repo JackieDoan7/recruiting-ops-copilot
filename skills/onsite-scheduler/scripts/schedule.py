@@ -456,6 +456,14 @@ def tzlabel(dt: datetime, tz: ZoneInfo) -> str:
     return dt.astimezone(tz).tzname() or str(tz)
 
 
+ZONE_LABELS = {"America/Los_Angeles": "PT", "America/Denver": "MT", "America/Chicago": "CT", "America/New_York": "ET"}
+
+
+def zone_label(dt: datetime, tz: ZoneInfo) -> str:
+    """'PT' rather than 'PST'/'PDT', so the label doesn't change with daylight saving."""
+    return ZONE_LABELS.get(getattr(tz, "key", ""), tzlabel(dt, tz))
+
+
 def summary_markdown(results: list[Result], s: dict) -> str:
     hq = s["hq"]
     lines = ["# Interview schedule (proposed)", "",
@@ -472,7 +480,7 @@ def summary_markdown(results: list[Result], s: dict) -> str:
         c = r.candidate
         lines += [f"## {c.name}" + (f" ({c.role})" if c.role else ""), ""]
         if r.placed:
-            hq_tz = tzlabel(r.placed[0].slot.start, hq)
+            hq_tz = zone_label(r.placed[0].slot.start, hq)
             days = sorted({p.slot.start.astimezone(hq).date() for p in r.placed})
             for d in days:  # one table per day, so multi-day remote loops show the right dates
                 lines += [f"**{d:%A, %B} {d.day}**", "",
@@ -513,7 +521,8 @@ def itinerary_email(r: Result, s: dict) -> str:
     lines = [f"Subject: Your {s['company'] + ' ' if s['company'] else ''}onsite on {day:%A, %B} {day.day}", "",
              f"Hi {first},", "",
              f"We're excited to host you on {day:%A, %B} {day.day}. Here's the plan "
-             f"(times are {tzlabel(r.placed[0].slot.start, hq)}, local to our office):", ""]
+             f"(times are {zone_label(r.placed[0].slot.start, hq)}, local to our office; the calendar invites will show "
+             "in your own time zone):", ""]
     for p in r.placed:
         names = ", ".join(p.people)
         who = "" if not p.people else (f" ({names})" if " with " in p.round.name.lower() else f" with {names}")

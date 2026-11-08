@@ -27,7 +27,7 @@
    team-wide count or snack requests, link a Google Form to the sheet.
 2. Update "Guests this period" if there are onsites or an event.
 3. **Refresh order**, open the Amazon cart link, check it, check out.
-4. Paste the "Other vendors" list from the email into Claude in Chrome.
+4. Paste the "Everything else" list from the email into Claude in Chrome.
    It fills those carts and stops. You check out.
 5. **Log the order as placed.** Everything you just bought moves into the
    "On order" column, so next week's refresh won't order it again.

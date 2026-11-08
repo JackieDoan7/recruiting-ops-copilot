@@ -43,8 +43,10 @@ where it goes at the end of the day. Nothing on the floor by 6 PM.
 ## How it shows up in the tools
 
 - **Supply Autopilot, Inventory tab:**
-  - Teammate pairs use *Scales with: Team, one each*, so a bigger headcount
-    automatically orders a pair for each new hire.
+  - The slipper trial is a fixed target of 6 pairs (3 kinds, 2 each). Once
+    the team picks a winner, add it as a *Scales with: Team, one each* row,
+    so a bigger headcount automatically orders a pair for each new hire. The
+    name labels for each teammate's spot already work that way.
   - Guest pairs use *Guests, one each*, so a week with 12 onsite candidates
     has 12 clean pairs plus a cushion.
   - Racks, bins and the hamper are one-time purchases: a fixed target with

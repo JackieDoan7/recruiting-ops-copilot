@@ -2,7 +2,7 @@
 
 Two tools I'd put to work in my first month in a Recruiting Coordinator & Office Manager role: one for recruiting ops, one for keeping the office running. The onsite project's bonus question asked what I'd build in Claude to speed up both, and said there was no need to actually build it. I wanted to, so here it is: working code, tested, with sample output for everything.
 
-**Try them:** [Candidate Desk](https://claude.ai/artifact/7eqaZjqTktKfX7KsqeYgPK) · [Supply Autopilot](https://claude.ai/artifact/VS48KRR92gnbPaUpdc4qsm) (interactive demos on made-up data)
+**Try them:** [Candidate Desk](https://jackiedoan7.github.io/recruiting-ops-copilot/candidate-desk/) · [Supply Autopilot](https://jackiedoan7.github.io/recruiting-ops-copilot/supply-autopilot/) (interactive demos on made-up data; the pages are in [`docs/`](docs))
 
 **Jackie Doan** · November 2026
 
@@ -100,7 +100,7 @@ Give it interviewer calendars, candidate availability and the rounds each candid
 
 > **Clara Novak (Data Engineer), Friday, November 20**
 >
-> | Round | PST | With |
+> | Round | PT | With |
 > | --- | --- | --- |
 > | Coffee chat | 9:30 AM–10 AM | Kai, Luis |
 > | Presentation | 10 AM–11 AM | Gwen, Hana, Nadia |
@@ -110,7 +110,7 @@ Give it interviewer calendars, candidate availability and the rounds each candid
 >
 > **Backup plan:** Coffee chat: if Kai drops, Luis can do it alone. Presentation: no backup named for Gwen, Hana, Nadia. Pick one before sending.
 
-Full output: [`schedule.md`](skills/onsite-scheduler/examples/output/schedule.md) · [itinerary email](skills/onsite-scheduler/examples/output/victor-hale-itinerary.md) · [calendar file](skills/onsite-scheduler/examples/output/victor-hale.ics)
+Full output: [`schedule.md`](skills/onsite-scheduler/examples/output/schedule.md) · [Clara's itinerary email](skills/onsite-scheduler/examples/output/clara-novak-itinerary.md) · [Clara's calendar file](skills/onsite-scheduler/examples/output/clara-novak.ics)
 </details>
 
 My templates for onsite prep, same-day reschedules and warm rejections are in [`references/templates.md`](skills/onsite-scheduler/references/templates.md).
@@ -121,8 +121,8 @@ My clinic system was a Google Form feeding a Google Sheet, so I could see what w
 
 - Targets scale the way each item is actually used: snacks with everyone each week, teammates' own items one per person (so a new hire gets theirs automatically), guest items with that week's onsite candidates and visitors.
 - Orders round up to full packs and only trigger at a reorder point. Anything already ordered but not yet delivered counts, so nothing gets bought twice.
-- One link adds every Amazon item to the cart, using Amazon's documented [Add to Cart form](https://webservices.amazon.com/paapi5/documentation/add-to-cart-form.html).
-- Other vendors get a ready-to-paste list for Claude in Chrome, which fills the cart and stops. (Claude in Chrome [doesn't make purchases](https://support.claude.com/en/articles/12902446-claude-for-chrome-permissions-guide), which is exactly the line I want.)
+- One link adds every Amazon item that has a product link to the cart, using Amazon's documented [Add to Cart form](https://webservices.amazon.com/paapi5/documentation/add-to-cart-form.html).
+- Everything else (other vendors, and Amazon items without a link yet) goes on a ready-to-paste list for Claude in Chrome, which fills the cart and stops. (Claude in Chrome [doesn't make purchases](https://support.claude.com/en/articles/12902446-claude-for-chrome-permissions-guide), which is exactly the line I want.)
 - A Vendors tab keeps a backup for each category, so a catering no-show is one phone call.
 - An **Office fixes** tab for the things that aren't a reorder: what's wrong, the fix, who owns it, and the routine that keeps it fixed. The worked example is a shoes-off entryway: wall racks instead of floor piles, a washable pair of their own for every teammate (after a two-week trial of a few kinds, so we buy the one people actually like), sized guest pairs with a hamper, and a two-minute end-of-day sweep ([playbook](skills/supply-autopilot/references/entryway.md)). Candidates hear about it in their itinerary email and get asked their shoe size, so a fresh pair is waiting.
 - A Monday email with the list, the cart link and an estimated total.

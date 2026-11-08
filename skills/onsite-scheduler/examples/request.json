@@ -3,7 +3,7 @@
   "coordinator": "Jackie",
   "office_address": "123 Example St, San Francisco",
   "travel_link": "https://travel.example.com/guest-booking",
-  "hotels": ["Example Hotel FiDi (4-min walk)", "Example Suites Embarcadero (10-min walk)"],
+  "hotels": ["Example Hotel (4-min walk)", "Example Suites (10-min walk)"],
   "office_notes": "We're a shoes-off office. We'll have a fresh pair of washable slippers waiting for you, so let me know your shoe size when you reply.",
   "hq_timezone": "America/Los_Angeles",
   "slot_minutes": 15,

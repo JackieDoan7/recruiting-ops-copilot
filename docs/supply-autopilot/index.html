@@ -1,0 +1,621 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="An office supply sheet that scales with headcount, builds the Amazon cart, and tracks office fixes. Sample data.">
+<title>Supply Autopilot</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+[hidden] { display: none !important; }
+/* Layout: a stockroom clipboard. Settings strip, then the order you'd place today, then the sheet itself. */
+:root {
+  --paper: #EEF1EE;
+  --sheet: #FFFFFF;
+  --field: #F6F8F6;
+  --ink: #17201A;
+  --muted: #5A665E;
+  --line: #D6DCD6;
+  --accent: #2443B5; --accent-soft: #E4E9F8;
+  --accent-ink: #FFFFFF;
+  --tape: #F2C230;
+  --ok: #2B7A4B;  --ok-bg: #E2F0E7;
+  --low: #A86100; --low-bg: #FBEDD5;
+  --out: #BF3329; --out-bg: #F8E0DC;
+  --display: "Bricolage Grotesque", "Arial Narrow", system-ui, sans-serif;
+  --body: "Instrument Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #0F1411; --sheet: #182019; --field: #121914; --ink: #E6ECE7; --muted: #98A69D; --line: #2C3730;
+    --accent: #8FA6FF; --accent-soft: #1A2348; --accent-ink: #0D1433; --tape: #E3B42A;
+    --ok: #74D29C; --ok-bg: #15301F; --low: #F2B35A; --low-bg: #36290F; --out: #F28B81; --out-bg: #3B1916;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #0F1411; --sheet: #182019; --field: #121914; --ink: #E6ECE7; --muted: #98A69D; --line: #2C3730;
+  --accent: #8FA6FF; --accent-soft: #1A2348; --accent-ink: #0D1433; --tape: #E3B42A;
+  --ok: #74D29C; --ok-bg: #15301F; --low: #F2B35A; --low-bg: #36290F; --out: #F28B81; --out-bg: #3B1916;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body {
+  background: var(--paper); color: var(--ink); font-family: var(--body); font-size: 15px; line-height: 1.45;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 24px 48px;
+}
+.wrap { max-width: 1180px; margin: 0 auto; display: grid; gap: 20px; }
+.num, .mono { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+
+header { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 12px 24px; }
+h1 { font-family: var(--display); font-weight: 800; font-size: clamp(28px, 4vw, 40px); line-height: 1; margin: 0; letter-spacing: -0.01em; }
+h1 .tape { background: linear-gradient(transparent 58%, var(--tape) 58%, var(--tape) 88%, transparent 88%); padding-inline: 2px; }
+.lede { margin: 6px 0 0; color: var(--muted); max-width: 62ch; }
+.sample-note { font-size: 12.5px; color: var(--muted); border: 1px dashed var(--line); border-radius: 6px; padding: 6px 10px; }
+
+.label { font-size: 11.5px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+
+/* Settings strip */
+.settings { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+.setting { background: var(--sheet); padding: 12px 14px; display: grid; gap: 6px; min-width: 0; }
+.setting input { width: 100%; font: 600 20px var(--mono); color: var(--ink); background: transparent; border: 0; border-bottom: 1px solid var(--line); padding: 2px 0; }
+.setting input:focus { outline: none; border-bottom-color: var(--accent); }
+.setting small { color: var(--muted); font-size: 12px; }
+@media (max-width: 760px) { .settings { grid-template-columns: repeat(2, minmax(0, 1fr)); } .setting:first-child { grid-column: 1 / -1; } }
+
+/* Today's order */
+.order { background: var(--sheet); border: 1px solid var(--line); border-radius: 10px; padding: 18px; display: grid; gap: 16px; }
+.order-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px 20px; }
+.order-head h2 { font-family: var(--display); font-weight: 600; font-size: 22px; margin: 0; text-wrap: balance; }
+.total { font: 600 26px var(--mono); }
+.total small { font: 500 12px var(--body); color: var(--muted); margin-left: 6px; }
+.vendors { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; }
+.vendor { border: 1px solid var(--line); border-radius: 8px; padding: 12px 14px; display: grid; gap: 10px; align-content: start; min-width: 0; }
+.vendor h3 { margin: 0; font-size: 14px; font-weight: 600; display: flex; justify-content: space-between; gap: 8px; }
+.vendor ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; font-size: 13.5px; }
+.vendor li { display: flex; justify-content: space-between; gap: 12px; }
+.vendor li span:first-child { min-width: 0; overflow-wrap: anywhere; }
+.vendor li .num { white-space: nowrap; }
+.how { font-size: 12.5px; color: var(--muted); margin: 0; }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; font: 600 14px var(--body); border-radius: 7px; padding: 9px 14px; border: 1px solid var(--accent); background: var(--accent); color: var(--accent-ink); text-decoration: none; cursor: pointer; }
+.btn.ghost { background: transparent; color: var(--accent); }
+.btn.quiet { background: transparent; color: var(--ink); border-color: var(--line); }
+.btn:focus-visible, button:focus-visible, input:focus-visible, a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.btn[aria-disabled="true"] { opacity: .45; pointer-events: none; }
+.actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+details.email summary { cursor: pointer; color: var(--muted); font-size: 13.5px; }
+pre.digest { white-space: pre-wrap; overflow-wrap: anywhere; font: 12.5px/1.55 var(--mono); background: var(--field); border: 1px solid var(--line); border-radius: 8px; padding: 12px; margin: 10px 0 0; max-height: 360px; overflow: auto; }
+.empty { color: var(--muted); }
+
+/* Tabs */
+.tabs { display: flex; gap: 4px; border-bottom: 1px solid var(--line); }
+.tab { font: 600 14px var(--body); background: none; border: 0; border-bottom: 2px solid transparent; color: var(--muted); padding: 10px 12px; cursor: pointer; margin-bottom: -1px; }
+.tab[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--ink); }
+.panel { display: grid; gap: 12px; }
+.panel-tools { display: flex; flex-wrap: wrap; gap: 10px; justify-content: space-between; align-items: center; }
+
+/* The sheet */
+.scroller { overflow-x: auto; background: var(--sheet); border: 1px solid var(--line); border-radius: 10px; }
+table { border-collapse: collapse; width: 100%; min-width: 1560px; font-size: 13.5px; }
+#rows td:nth-child(1) { min-width: 210px; } #rows td:nth-child(2) { min-width: 130px; } #rows td:nth-child(3) { min-width: 190px; }
+td select { font: inherit; font-size: 12.5px; color: var(--ink); background: var(--field); border: 1px solid var(--line); border-radius: 5px; padding: 4px 4px; max-width: 150px; }
+td textarea { width: 100%; min-height: 64px; font: inherit; font-size: 13.5px; color: var(--ink); background: transparent; border: 1px solid transparent; border-radius: 5px; padding: 5px 6px; resize: vertical; }
+td textarea:hover { border-color: var(--line); }
+td textarea:focus { outline: none; border-color: var(--accent); background: var(--sheet); }
+th, td { border-bottom: 1px solid var(--line); padding: 6px 8px; text-align: left; vertical-align: middle; }
+thead th { font-size: 11px; letter-spacing: .07em; text-transform: uppercase; color: var(--muted); font-weight: 600; background: var(--sheet); white-space: nowrap; }
+thead tr.band th { font-size: 10.5px; padding-top: 10px; border-bottom: 0; }
+thead tr.band th.calc { color: var(--accent); }
+td.calc, th.calc { background: var(--field); }
+tbody tr:last-child td { border-bottom: 0; }
+td input { width: 100%; font: inherit; color: var(--ink); background: transparent; border: 1px solid transparent; border-radius: 5px; padding: 5px 6px; min-width: 0; }
+td input:hover { border-color: var(--line); }
+td input:focus { outline: none; border-color: var(--accent); background: var(--sheet); }
+td input.n { font-family: var(--mono); text-align: right; font-variant-numeric: tabular-nums; }
+td input.bad { border-color: var(--out); background: var(--out-bg); }
+td .asin { font: 11px var(--mono); color: var(--muted); padding-left: 7px; display: block; }
+td.r { text-align: right; font-family: var(--mono); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.stepper { display: flex; align-items: center; gap: 2px; }
+.stepper input { width: 64px; }
+.stepper button { width: 26px; height: 26px; border-radius: 5px; border: 1px solid var(--line); background: var(--sheet); color: var(--ink); cursor: pointer; font: 600 14px var(--mono); line-height: 1; }
+.gauge { position: relative; height: 8px; width: 110px; background: var(--line); border-radius: 4px; overflow: visible; }
+.gauge .fill { position: absolute; inset: 0 auto 0 0; border-radius: 4px; }
+.gauge .tick { position: absolute; top: -3px; bottom: -3px; width: 2px; background: var(--ink); opacity: .55; }
+.pill { display: inline-block; font-size: 11.5px; font-weight: 600; letter-spacing: .03em; padding: 2px 8px; border-radius: 999px; }
+.s-OK { color: var(--ok); background: var(--ok-bg); } .f-OK { background: var(--ok); }
+.s-Low { color: var(--low); background: var(--low-bg); } .f-Low { background: var(--low); }
+.s-Out { color: var(--out); background: var(--out-bg); } .f-Out { background: var(--out); }
+.s-Check { color: var(--out); background: var(--out-bg); }
+.s-Ontheway { color: var(--accent); background: var(--accent-soft); } .f-Ontheway { background: var(--ok); }
+.gauge .coming { position: absolute; top: 0; bottom: 0; border-radius: 0 4px 4px 0; background: repeating-linear-gradient(135deg, var(--accent) 0 3px, transparent 3px 6px); opacity: .55; }
+.log-btn { font: inherit; font-size: 12.5px; padding: 4px 9px; border-radius: 6px; border: 1px solid var(--line); background: transparent; color: var(--ink); cursor: pointer; }
+.arrived { color: var(--muted); font-size: 12.5px; }
+.del { border: 0; background: none; color: var(--muted); cursor: pointer; font-size: 18px; line-height: 1; padding: 4px 6px; border-radius: 5px; }
+.del:hover { color: var(--out); }
+.legend { font-size: 12.5px; color: var(--muted); display: flex; flex-wrap: wrap; gap: 6px 18px; }
+.legend i { display: inline-block; width: 2px; height: 10px; background: var(--ink); opacity: .55; vertical-align: -1px; margin-right: 6px; }
+
+.toast { position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(20px + env(safe-area-inset-bottom, 0px)); background: var(--ink); color: var(--paper); padding: 10px 14px; border-radius: 8px; font-size: 14px; display: flex; gap: 12px; align-items: center; box-shadow: 0 6px 24px rgba(0,0,0,.18); z-index: 20; max-width: calc(100vw - 32px); }
+.toast[hidden] { display: none; }
+.toast button { background: none; border: 0; color: var(--tape); font: 600 14px var(--body); cursor: pointer; }
+footer { color: var(--muted); font-size: 12.5px; }
+@media (prefers-reduced-motion: no-preference) { .gauge .fill { transition: width .25s ease; } }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header>
+    <div>
+      <h1>Supply <span class="tape">Autopilot</span></h1>
+      <p class="lede">Count what's on the shelf, and it works out what to order, builds the Amazon cart, and writes the list for every other vendor. Nothing is bought until you check out.</p>
+    </div>
+    <div class="sample-note" id="sampleNote">Sample items for a 45-person office. Edit anything, or reset to start over. <a href="https://github.com/JackieDoan7/recruiting-ops-copilot" target="_blank" rel="noopener" style="color:var(--accent)">See the code</a></div>
+  </header>
+
+  <section class="settings" aria-label="This week">
+    <label class="setting"><span class="label">Headcount</span><input id="headcount" type="number" min="0" step="1" inputmode="numeric"><small>People in the office most days</small></label>
+    <label class="setting"><span class="label">Guests this week</span><input id="guests" type="number" min="0" step="1" inputmode="numeric"><small>Onsite candidates, events, visitors</small></label>
+    <label class="setting"><span class="label">Weeks between orders</span><input id="weeks" type="number" min="0.5" step="0.5" inputmode="decimal"><small>How long this order has to last</small></label>
+    <label class="setting"><span class="label">Safety stock %</span><input id="safety" type="number" min="0" step="5" inputmode="numeric"><small>Cushion on top of expected use</small></label>
+    <label class="setting"><span class="label">Reorder at % of target</span><input id="reorder" type="number" min="0" max="100" step="5" inputmode="numeric"><small>At or below this, order back up</small></label>
+  </section>
+
+  <section class="order" aria-labelledby="orderTitle">
+    <div class="order-head">
+      <h2 id="orderTitle">This week's order</h2>
+      <div class="total" id="total"></div>
+    </div>
+    <div class="vendors" id="vendors"></div>
+    <div class="actions">
+      <button class="btn quiet" id="logBtn" type="button">Log as placed</button>
+      <details class="email"><summary>Preview the Monday email</summary><pre class="digest" id="digest"></pre></details>
+    </div>
+  </section>
+
+  <div class="tabs" role="tablist">
+    <button class="tab" role="tab" id="tab-inventory" aria-selected="true" aria-controls="p-inventory" type="button">Inventory</button>
+    <button class="tab" role="tab" id="tab-vendors" aria-selected="false" aria-controls="p-vendors" type="button">Vendors</button>
+    <button class="tab" role="tab" id="tab-fixes" aria-selected="false" aria-controls="p-fixes" type="button">Office fixes</button>
+    <button class="tab" role="tab" id="tab-log" aria-selected="false" aria-controls="p-log" type="button">Order log</button>
+  </div>
+
+  <section class="panel" id="p-inventory" role="tabpanel" aria-labelledby="tab-inventory">
+    <div class="panel-tools">
+      <div class="legend">
+        <span><span class="pill s-OK">OK</span> above the reorder line</span>
+        <span><span class="pill s-Low">Low</span> at or below it</span>
+        <span><span class="pill s-Out">Out</span> none left</span>
+        <span><span class="pill s-Ontheway">On the way</span> low on the shelf, but enough is already ordered</span>
+        <span><i></i>reorder line on each gauge</span>
+      </div>
+      <div class="actions">
+        <button class="btn ghost" id="addRow" type="button">Add item</button>
+        <button class="btn quiet" id="reset" type="button">Reset to sample</button>
+      </div>
+    </div>
+    <div class="scroller">
+      <table>
+        <thead>
+          <tr class="band"><th colspan="10">You enter</th><th class="calc" colspan="5">Calculated</th><th></th></tr>
+          <tr>
+            <th style="width:19%">Item</th><th style="width:12%">Vendor</th><th style="width:16%">Amazon link, ASIN or vendor link</th>
+            <th>Pack<br>size</th><th>Amount per<br>person</th><th>Scales<br>with</th><th>Fixed<br>target</th><th>On hand</th><th>On<br>order</th><th>Price<br>per pack</th>
+            <th class="calc">Target</th><th class="calc">Stock</th><th class="calc">Packs</th><th class="calc">Est. cost</th><th class="calc">Status</th><th><span class="label" style="position:absolute;left:-9999px">Remove</span></th>
+          </tr>
+        </thead>
+        <tbody id="rows"></tbody>
+      </table>
+    </div>
+    <p class="how">Units are whatever you count on the shelf: reams, cans, pairs. <strong>Scales with</strong> says how an item is used: <em>Everyone, per week</em> (snacks: amount × everyone × weeks), <em>Team, one each</em> (teammates' own slippers: amount × headcount, so a new hire gets a pair), or <em>Guests, one each</em> (guest slippers: amount × guests). Safety stock is added to all three. A fixed target overrides them; use it for one-time purchases like racks and bins, which order once and stop. <strong>On order</strong> is what's already been bought but hasn't arrived, so it never gets ordered twice. "Log as placed" fills it in for you, and "Mark arrived" in the Order log moves it onto the shelf.</p>
+  </section>
+
+  <section class="panel" id="p-vendors" role="tabpanel" aria-labelledby="tab-vendors" hidden>
+    <p class="how">A preferred and backup vendor for every category, so a no-show is one phone call instead of a scramble.</p>
+    <div class="scroller">
+      <table style="min-width:760px">
+        <thead><tr><th>Category</th><th>Preferred vendor</th><th>Backup vendor</th><th>Contact</th><th>Notes</th></tr></thead>
+        <tbody id="vendorRows"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="panel" id="p-fixes" role="tabpanel" aria-labelledby="tab-fixes" hidden>
+    <div class="panel-tools">
+      <p class="how" style="max-width:70ch">Things that aren't a reorder: what's wrong, the fix, who owns it, and the routine that keeps it fixed. Anything to buy goes on the Inventory tab, so it lands in this week's order.</p>
+      <button class="btn ghost" id="addFix" type="button">Add a fix</button>
+    </div>
+    <div class="scroller">
+      <table style="min-width:980px">
+        <thead><tr><th style="width:11%">Spotted</th><th style="width:27%">What's wrong</th><th style="width:30%">The fix</th><th style="width:16%">What to buy</th><th style="width:9%">Owner</th><th style="width:7%">Status</th></tr></thead>
+        <tbody id="fixRows"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="panel" id="p-log" role="tabpanel" aria-labelledby="tab-log" hidden>
+    <p class="how">Every order you log lands here. Mark it arrived when the boxes show up, and the counts move onto the shelf.</p>
+    <div class="scroller">
+      <table style="min-width:640px">
+        <thead><tr><th>Date</th><th>Vendors</th><th>Items</th><th style="text-align:right">Est. total</th><th>Delivery</th></tr></thead>
+        <tbody id="logRows"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <footer>Same logic as the Google Sheets version in the <a href="https://github.com/JackieDoan7/recruiting-ops-copilot" target="_blank" rel="noopener" style="color:var(--accent)">Recruiting Ops Copilot repo</a>. Changes are kept in this browser only.</footer>
+</div>
+<div class="toast" id="toast" hidden role="status" aria-live="polite"><span id="toastText"></span><button id="toastUndo" type="button">Undo</button></div>
+
+<script>
+/* ---------- the same pure logic as apps-script/Code.gs ---------- */
+var AMAZON_CART = 'https://www.amazon.com/gp/aws/cart/add.html';
+function extractAsin(v) {
+  var s = String(v || '').trim();
+  if (/^[A-Z0-9]{10}$/i.test(s)) return s.toUpperCase();
+  var m = s.match(/\/(?:dp|gp\/product|gp\/aw\/d|product)\/([A-Z0-9]{10})(?:[/?#]|$)/i);
+  return m ? m[1].toUpperCase() : '';
+}
+function num(v, fallback) {
+  if (v === '' || v === null || v === undefined) return fallback;
+  if (typeof v === 'number') return v;
+  var t = String(v).replace(/[$,\s]/g, '');
+  if (t === '') return fallback;
+  var n = Number(t);
+  if (isNaN(n)) throw new Error('Can\'t read "' + v + '" as a number.');
+  return n;
+}
+function basisOf(v) {
+  v = String(v || '').toLowerCase();
+  if (/guest/.test(v)) return 'guests';
+  if (/team|headcount|one each|per person/.test(v)) return 'team';
+  return 'weekly';
+}
+function computeTarget(item, s) {
+  var fixed = num(item.fixedTarget, 0);
+  if (fixed > 0) return Math.ceil(fixed);
+  var amount = num(item.amount, 0), cushion = 1 + num(s.safetyPct, 0) / 100;
+  var team = num(s.headcount, 0), guests = num(s.guests, 0), basis = basisOf(item.basis);
+  var raw = basis === 'team' ? amount * team * cushion
+    : basis === 'guests' ? amount * guests * cushion
+    : amount * (team + guests) * num(s.weeksBetweenOrders, 1) * cushion;
+  return Math.ceil(raw - 1e-9);
+}
+function computeLine(item, s) {
+  var target = computeTarget(item, s);
+  var onHand = Math.max(0, num(item.onHand, 0));
+  var onOrder = Math.max(0, num(item.onOrder, 0));
+  var pack = Math.max(1, num(item.packSize, 1));
+  var line = target * num(s.reorderPct, 60) / 100, stock = onHand + onOrder;
+  var low = stock <= line;
+  var packs = (low && target > stock) ? Math.ceil((target - stock) / pack) : 0;
+  return { item: item.item, vendor: String(item.vendor || '').trim(), link: String(item.link || '').trim(),
+    asin: extractAsin(item.link), target: target, onHand: onHand, onOrder: onOrder, packs: packs, pack: pack,
+    cost: Math.round(packs * num(item.price, 0) * 100) / 100,
+    status: target <= 0 ? 'OK' : stock === 0 ? 'Out' : low ? 'Low' : (onOrder > 0 && onHand <= line ? 'On the way' : 'OK') };
+}
+function isAmazon(l) { return /amazon/i.test(l.vendor) && l.asin !== ''; }
+function amazonCartUrl(lines) {
+  var parts = [], n = 0;
+  lines.forEach(function (l) { if (l.packs > 0 && isAmazon(l)) { n++; parts.push('ASIN.' + n + '=' + l.asin, 'Quantity.' + n + '=' + l.packs); } });
+  return n ? AMAZON_CART + '?' + parts.join('&') : '';
+}
+function chromeHandoff(lines) {
+  var by = {};
+  lines.forEach(function (l) { if (l.packs > 0 && !isAmazon(l)) { var v = l.vendor || 'the vendor'; (by[v] = by[v] || []).push(l); } });
+  var vs = Object.keys(by).sort(); if (!vs.length) return '';
+  var out = [];
+  vs.forEach(function (v) {
+    out.push('In my signed-in ' + v + ' tab, add these to the cart:');
+    by[v].forEach(function (l) { out.push('- ' + l.item + ' x ' + l.packs + (l.link ? ' (' + l.link + ')' : '')); });
+    out.push('');
+  });
+  out.push('Use the links when given. For an item without a link, pick a well-reviewed match for the description. If something is out of stock, pick the closest match. Tell me anything you chose or swapped. Stop at the cart and show me the total. Do not check out.');
+  return out.join('\n');
+}
+function digestText(lines, cartUrl, handoff) {
+  var toOrder = lines.filter(function (l) { return l.packs > 0; });
+  if (!toOrder.length) return 'Everything is stocked this week. Nothing to order.';
+  var total = toOrder.reduce(function (s, l) { return s + l.cost; }, 0);
+  var out = [toOrder.length + ' item(s) to order, estimated $' + total.toFixed(2) + ':'];
+  toOrder.forEach(function (l) { out.push('- ' + l.item + ': ' + l.packs + ' pack(s) from ' + (l.vendor || '?') + ' (on hand ' + l.onHand + (l.onOrder ? ', on order ' + l.onOrder : '') + ', target ' + l.target + ', ' + l.status.toLowerCase() + ')'); });
+  if (cartUrl) out.push('', 'Amazon: open this link, check the cart, then check out yourself:', cartUrl);
+  if (handoff) out.push('', 'Everything else (other vendors, and Amazon items without a link): paste this into Claude in Chrome:', '', handoff);
+  return out.join('\n');
+}
+
+/* ---------- sample data (made up, except the Amazon product IDs, which are real listings) ---------- */
+function sample() {
+  return {
+    settings: { headcount: 45, guests: 12, weeksBetweenOrders: 1, safetyPct: 20, reorderPct: 60 },
+    items: [
+      { item: 'Copy paper, 10 reams', vendor: 'Amazon', link: 'https://www.amazon.com/dp/B01FV0F13E', packSize: 10, amount: 0, basis: 'Everyone, per week', fixedTarget: 6, onHand: 3, price: 70 },
+      { item: 'Disinfecting wipes, 3 x 75', vendor: 'Amazon', link: 'https://www.amazon.com/dp/B00HSC9F2C', packSize: 3, amount: 0.1, basis: 'Everyone, per week', fixedTarget: '', onHand: 2, price: 15 },
+      { item: 'KIND bars, dark chocolate, 12 ct', vendor: 'Amazon', link: 'https://www.amazon.com/dp/B007PE7ANY', packSize: 12, amount: 1.5, basis: 'Everyone, per week', fixedTarget: '', onHand: 20, price: 16 },
+      { item: 'LaCroix lime, 12 cans', vendor: 'Amazon', link: 'https://www.amazon.com/dp/B07812QWNH', packSize: 12, amount: 3, basis: 'Everyone, per week', fixedTarget: '', onHand: 60, onOrder: 96, price: 7 },
+      { item: 'LaCroix variety, 24 cans', vendor: 'Costco Business Delivery', link: 'https://www.costcobusinessdelivery.com/lacroix-sparkling-water-variety-pack-12-fl-oz-24-ct.product.100273326.html', packSize: 24, amount: 2, basis: 'Everyone, per week', fixedTarget: '', onHand: 30, price: 15 },
+      { item: 'Fresh fruit box', vendor: 'Local produce vendor', link: '', packSize: 1, amount: 0, basis: '', fixedTarget: 2, onHand: 0, price: 45 },
+      { item: 'Sticky notes, 3x3, 24 pads', vendor: 'Amazon', link: '', packSize: 24, amount: 0, basis: '', fixedTarget: 24, onHand: 30, price: 22 },
+      { item: 'Slipper trial pairs (3 kinds, 2 each)', vendor: 'Amazon', link: '', packSize: 1, amount: 0, basis: '', fixedTarget: 6, onHand: 0, price: 15 },
+      { item: 'Name labels for teammate slipper spots', vendor: 'Amazon', link: '', packSize: 60, amount: 1, basis: 'Team, one each', fixedTarget: '', onHand: 0, price: 9 },
+      { item: 'Washable guest slippers, sized', vendor: 'Amazon', link: '', packSize: 1, amount: 1, basis: 'Guests, one each', fixedTarget: '', onHand: 4, price: 12 },
+      { item: 'Wall-mounted shoe rack (one-time)', vendor: 'Amazon', link: '', packSize: 1, amount: 0, basis: '', fixedTarget: 6, onHand: 2, price: 60 },
+      { item: 'Slipper bins with size labels (one-time)', vendor: 'Amazon', link: '', packSize: 1, amount: 0, basis: '', fixedTarget: 2, onHand: 0, price: 25 },
+      { item: 'Hamper for used guest slippers (one-time)', vendor: 'Amazon', link: '', packSize: 1, amount: 0, basis: '', fixedTarget: 1, onHand: 0, price: 30 }
+    ],
+    vendors: [
+      ['Office supplies', 'Amazon Business', 'Staples', '', 'Most items arrive next day'],
+      ['Snacks and drinks', 'Amazon / Costco Business Delivery', 'Instacart', '', ''],
+      ['Team lunch catering', 'Preferred caterer', 'Backup caterer', '(415) 555-0142', 'If 15+ min late with no answer: call backup, or send delivery credits to the team'],
+      ['Cleaning', 'Cleaning vendor', 'Backup cleaning vendor', '(415) 555-0188', 'Deep clean the week before a big onsite']
+    ],
+    fixes: [
+      { spotted: 'Entryway', wrong: 'Only a couple of shoe racks for the whole team, so shoes pile up by the door. Shared one-size slippers from a bulk pack end up scattered around the office, and it is the first thing candidates see.',
+        fix: 'Go vertical with wall-mounted racks. First, try 3 kinds of washable slippers with a few teammates for two weeks. Then every teammate gets their own pair of the winner, in their size, in a labeled spot (add it as a "Team, one each" row, so new hires get a pair automatically). Sized guest bins plus a hamper for used guest pairs. Two-minute end-of-day sweep. Check back in two weeks: no loose pairs by the door, and people actually like the slippers.',
+        buy: 'Wall racks, slipper trial pairs, name labels, guest slippers, size bins, hamper (Inventory, last six rows)', owner: 'Office manager', status: 'To do' }
+    ],
+    log: []
+  };
+}
+
+/* ---------- state ---------- */
+var KEY = 'supply-autopilot-v3';
+var state;
+try { state = JSON.parse(localStorage.getItem(KEY)) || sample(); } catch (e) { state = sample(); }
+if (!state.fixes) state.fixes = sample().fixes;
+function save() { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {} }
+var $ = function (id) { return document.getElementById(id); };
+var money = function (n) { return '$' + n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); };
+var esc = function (s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
+
+/* ---------- settings ---------- */
+var SETTING_IDS = { headcount: 'headcount', guests: 'guests', weeks: 'weeksBetweenOrders', safety: 'safetyPct', reorder: 'reorderPct' };
+Object.keys(SETTING_IDS).forEach(function (id) {
+  var el = $(id); el.value = state.settings[SETTING_IDS[id]];
+  el.addEventListener('input', function () { state.settings[SETTING_IDS[id]] = el.value; save(); recalc(); });
+});
+
+/* ---------- inventory sheet ---------- */
+var FIELDS = [['item', 'text'], ['vendor', 'text'], ['link', 'text'], ['packSize', 'n'], ['amount', 'n'], ['basis', 'basis'], ['fixedTarget', 'n'], ['onHand', 'step'], ['onOrder', 'n'], ['price', 'n']];
+var BASES = ['Everyone, per week', 'Team, one each', 'Guests, one each'];
+function renderRows() {
+  var tb = $('rows'); tb.innerHTML = '';
+  state.items.forEach(function (it, i) {
+    var tr = document.createElement('tr'); tr.dataset.i = i;
+    var html = '';
+    FIELDS.forEach(function (f) {
+      var key = f[0], kind = f[1], val = it[key] === undefined ? '' : it[key];
+      var id = 'r' + i + '-' + key;
+      var aria = 'aria-label="' + key + ' for ' + esc(it.item || 'new item') + '"';
+      if (kind === 'step') {
+        html += '<td><div class="stepper"><button type="button" data-step="-1" aria-label="One less">−</button><input id="' + id + '" class="n" data-k="' + key + '" value="' + esc(val) + '" inputmode="decimal" ' + aria + '><button type="button" data-step="1" aria-label="One more">+</button></div></td>';
+      } else if (kind === 'basis') {
+        var cur = BASES[['weekly', 'team', 'guests'].indexOf(basisOf(val))];
+        html += '<td><select id="' + id + '" data-k="basis" ' + aria + '>' + BASES.map(function (b) { return '<option' + (b === cur ? ' selected' : '') + '>' + b + '</option>'; }).join('') + '</select></td>';
+      } else if (key === 'link') {
+        html += '<td><input id="' + id + '" data-k="link" value="' + esc(val) + '" placeholder="Paste a product link" ' + aria + '><span class="asin" data-asin></span></td>';
+      } else {
+        html += '<td><input id="' + id + '" class="' + (kind === 'n' ? 'n' : '') + '" data-k="' + key + '" value="' + esc(val) + '" ' + (kind === 'n' ? 'inputmode="decimal"' : '') + ' ' + aria + '></td>';
+      }
+    });
+    html += '<td class="calc r" data-c="target"></td><td class="calc"><div class="gauge"><div class="fill"></div><div class="coming"></div><div class="tick"></div></div></td><td class="calc r" data-c="packs"></td><td class="calc r" data-c="cost"></td><td class="calc" data-c="status"></td>';
+    html += '<td><button class="del" type="button" aria-label="Remove ' + esc(it.item || 'item') + '">×</button></td>';
+    tr.innerHTML = html;
+    tb.appendChild(tr);
+  });
+}
+$('rows').addEventListener('change', function (e) {
+  if (e.target.dataset.k !== 'basis') return;
+  state.items[+e.target.closest('tr').dataset.i].basis = e.target.value; save(); recalc();
+});
+$('rows').addEventListener('input', function (e) {
+  var k = e.target.dataset.k; if (!k) return;
+  var i = +e.target.closest('tr').dataset.i;
+  state.items[i][k] = e.target.value; save(); recalc();
+});
+$('rows').addEventListener('click', function (e) {
+  var tr = e.target.closest('tr'); if (!tr) return;
+  var i = +tr.dataset.i;
+  if (e.target.dataset.step) {
+    var cur = 0; try { cur = num(state.items[i].onHand, 0); } catch (err) {}
+    state.items[i].onHand = Math.max(0, cur + Number(e.target.dataset.step));
+    tr.querySelector('[data-k="onHand"]').value = state.items[i].onHand;
+    save(); recalc();
+  } else if (e.target.classList.contains('del')) {
+    var removed = state.items.splice(i, 1)[0];
+    save(); renderRows(); recalc();
+    toast('Removed ' + (removed.item || 'item'), function () { state.items.splice(i, 0, removed); save(); renderRows(); recalc(); });
+  }
+});
+$('addRow').addEventListener('click', function () {
+  state.items.push({ item: '', vendor: 'Amazon', link: '', packSize: 1, amount: 0, basis: 'Everyone, per week', fixedTarget: '', onHand: 0, onOrder: 0, price: '' });
+  save(); renderRows(); recalc();
+  var rows = $('rows').querySelectorAll('tr'); rows[rows.length - 1].querySelector('input').focus();
+});
+$('reset').addEventListener('click', function () {
+  var before = JSON.parse(JSON.stringify(state));
+  state = sample(); save(); load();
+  toast('Reset to the sample items', function () { state = before; save(); load(); });
+});
+
+/* ---------- recalc: compute lines, update calculated cells and the order ---------- */
+var lastLines = [];
+function recalc() {
+  var s = state.settings, lines = [];
+  var rows = $('rows').querySelectorAll('tr');
+  state.items.forEach(function (it, i) {
+    var tr = rows[i], line = null;
+    tr.querySelectorAll('input.n').forEach(function (inp) { inp.classList.remove('bad'); });
+    try { line = computeLine(it, s); }
+    catch (err) {
+      tr.querySelectorAll('input.n').forEach(function (inp) { try { num(inp.value, 0); } catch (e2) { inp.classList.add('bad'); inp.title = e2.message; } });
+    }
+    var asinEl = tr.querySelector('[data-asin]');
+    var asin = extractAsin(it.link);
+    asinEl.textContent = asin ? 'ASIN ' + asin : (/amazon/i.test(it.vendor || '') && it.link ? 'No ASIN found in this link' : '');
+    if (!line) {
+      tr.querySelector('[data-c="status"]').innerHTML = '<span class="pill s-Check">Check numbers</span>';
+      ['target', 'packs', 'cost'].forEach(function (c) { tr.querySelector('[data-c="' + c + '"]').textContent = '—'; });
+      return;
+    }
+    if (!it.item) line.item = 'Unnamed item';
+    lines.push(line);
+    tr.querySelector('[data-c="target"]').textContent = line.target;
+    tr.querySelector('[data-c="packs"]').textContent = line.packs || '—';
+    tr.querySelector('[data-c="cost"]').textContent = line.packs ? money(line.cost) : '—';
+    tr.querySelector('[data-c="status"]').innerHTML = '<span class="pill s-' + line.status.replace(/\s/g, '') + '">' + line.status + '</span>';
+    var g = tr.querySelector('.gauge');
+    var pct = line.target > 0 ? Math.min(100, line.onHand / line.target * 100) : 100;
+    var fill = g.querySelector('.fill');
+    fill.style.width = pct + '%'; fill.className = 'fill f-' + line.status.replace(/\s/g, '');
+    var coming = g.querySelector('.coming');
+    var cpct = line.target > 0 ? Math.max(0, Math.min(100 - pct, line.onOrder / line.target * 100)) : 0;
+    coming.style.left = pct + '%'; coming.style.width = cpct + '%';
+    var tick = 0; try { tick = Math.min(100, num(s.reorderPct, 60)); } catch (e3) {}
+    g.querySelector('.tick').style.left = 'calc(' + tick + '% - 1px)';
+    g.title = line.onHand + ' on hand' + (line.onOrder ? ', ' + line.onOrder + ' on the way' : '') + ' of ' + line.target + ' target';
+  });
+  lastLines = lines;
+  renderOrder(lines);
+}
+
+function renderOrder(lines) {
+  var toOrder = lines.filter(function (l) { return l.packs > 0; });
+  var total = toOrder.reduce(function (a, l) { return a + l.cost; }, 0);
+  $('total').innerHTML = money(total) + '<small>estimated, ' + toOrder.length + ' item' + (toOrder.length === 1 ? '' : 's') + '</small>';
+  var box = $('vendors'); box.innerHTML = '';
+  if (!toOrder.length) { box.innerHTML = '<p class="empty">Nothing to order: everything is stocked or already on the way.</p>'; }
+  var amazon = toOrder.filter(isAmazon);
+  var other = toOrder.filter(function (l) { return !isAmazon(l); });
+  if (amazon.length) {
+    var url = amazonCartUrl(lines);
+    var card = document.createElement('div'); card.className = 'vendor';
+    card.innerHTML = '<h3><span>Amazon</span><span class="num">' + money(amazon.reduce(function (a, l) { return a + l.cost; }, 0)) + '</span></h3>' +
+      '<ul>' + amazon.map(function (l) { return '<li><span>' + esc(l.item) + '</span><span class="num">× ' + l.packs + '</span></li>'; }).join('') + '</ul>' +
+      '<div class="actions"><a class="btn" href="' + esc(url) + '" target="_blank" rel="noopener">Open cart with ' + amazon.length + ' item' + (amazon.length === 1 ? '' : 's') + '</a></div>' +
+      '<p class="how">Opens Amazon\'s add-to-cart page in a new tab. Confirm the items, check the cart, then check out yourself.</p>';
+    box.appendChild(card);
+  }
+  if (other.length) {
+    var hand = chromeHandoff(lines);
+    var byV = {};
+    other.forEach(function (l) { (byV[l.vendor || 'Other'] = byV[l.vendor || 'Other'] || []).push(l); });
+    var card2 = document.createElement('div'); card2.className = 'vendor';
+    card2.innerHTML = '<h3><span>For Claude in Chrome</span><span class="num">' + money(other.reduce(function (a, l) { return a + l.cost; }, 0)) + '</span></h3>' +
+      Object.keys(byV).sort().map(function (v) {
+        return '<div><div class="label" style="margin-bottom:4px">' + esc(v) + '</div><ul>' + byV[v].map(function (l) { return '<li><span>' + esc(l.item) + '</span><span class="num">× ' + l.packs + '</span></li>'; }).join('') + '</ul></div>';
+      }).join('') +
+      '<div class="actions"><button class="btn ghost" type="button" id="copyHand">Copy Claude in Chrome list</button></div>' +
+      '<p class="how">Other vendors, plus Amazon items that don\'t have a product link yet. Paste the list into Claude in Chrome: it fills each cart in your signed-in tabs, picks a well-reviewed match where there\'s no link, and stops before checkout.</p>' +
+      '<textarea id="handText" readonly hidden style="width:100%;min-height:120px;font:12px var(--mono)"></textarea>';
+    box.appendChild(card2);
+    $('copyHand').addEventListener('click', function () {
+      var t = $('handText'); t.value = hand;
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(hand).then(function () { toast('Copied the Claude in Chrome list'); }, function () { t.hidden = false; t.select(); toast('Select and copy the list below'); });
+      } else { t.hidden = false; t.select(); }
+    });
+  }
+  $('digest').textContent = digestText(lines, amazonCartUrl(lines), chromeHandoff(lines));
+  var lb = $('logBtn'); lb.disabled = !toOrder.length;
+  lb.setAttribute('aria-disabled', String(!toOrder.length));
+}
+
+/* ---------- vendors and log ---------- */
+function renderVendors() {
+  var tb = $('vendorRows'); tb.innerHTML = '';
+  state.vendors.forEach(function (row, i) {
+    var tr = document.createElement('tr');
+    tr.innerHTML = row.map(function (v, j) { return '<td><input id="v' + i + '-' + j + '" data-j="' + j + '" value="' + esc(v) + '" aria-label="Vendor field"></td>'; }).join('');
+    tr.addEventListener('input', function (e) { state.vendors[i][+e.target.dataset.j] = e.target.value; save(); });
+    tb.appendChild(tr);
+  });
+}
+var FIX_STATUS = ['To do', 'In progress', 'Done'];
+function renderFixes() {
+  var tb = $('fixRows'); tb.innerHTML = '';
+  state.fixes.forEach(function (f, i) {
+    var tr = document.createElement('tr');
+    var cell = function (k, long) {
+      var id = 'f' + i + '-' + k;
+      return '<td>' + (long ? '<textarea id="' + id + '" data-k="' + k + '" aria-label="' + k + '">' + esc(f[k] || '') + '</textarea>'
+        : '<input id="' + id + '" data-k="' + k + '" value="' + esc(f[k] || '') + '" aria-label="' + k + '">') + '</td>';
+    };
+    tr.innerHTML = cell('spotted') + cell('wrong', true) + cell('fix', true) + cell('buy', true) + cell('owner') +
+      '<td><select id="f' + i + '-status" data-k="status" aria-label="Status">' + FIX_STATUS.map(function (st) { return '<option' + (st === f.status ? ' selected' : '') + '>' + st + '</option>'; }).join('') + '</select></td>';
+    tr.addEventListener('input', function (e) { if (e.target.dataset.k) { state.fixes[i][e.target.dataset.k] = e.target.value; save(); } });
+    tr.addEventListener('change', function (e) { if (e.target.dataset.k) { state.fixes[i][e.target.dataset.k] = e.target.value; save(); } });
+    tb.appendChild(tr);
+  });
+}
+$('addFix').addEventListener('click', function () {
+  state.fixes.push({ spotted: '', wrong: '', fix: '', buy: '', owner: '', status: 'To do' }); save(); renderFixes();
+  var rows = $('fixRows').querySelectorAll('tr'); rows[rows.length - 1].querySelector('input').focus();
+});
+function renderLog() {
+  var tb = $('logRows');
+  if (!state.log.length) { tb.innerHTML = '<tr><td colspan="5" class="empty">No orders logged yet. Use "Log as placed" after you check out.</td></tr>'; return; }
+  tb.innerHTML = state.log.map(function (r, i) {
+    var arrive = r.arrived ? '<span class="arrived">Arrived ' + esc(r.arrived) + '</span>' : (r.units ? '<button type="button" class="log-btn" data-arrive="' + i + '">Mark arrived</button>' : '');
+    return '<tr><td class="mono">' + esc(r.date) + '</td><td>' + esc(r.vendors) + '</td><td>' + esc(r.items) + '</td><td class="r">' + money(r.total) + '</td><td>' + arrive + '</td></tr>';
+  }).reverse().join('');
+}
+$('logRows').addEventListener('click', function (e) {
+  var i = e.target.dataset.arrive; if (i === undefined) return;
+  var r = state.log[+i];
+  r.units.forEach(function (u) {
+    var it = state.items.filter(function (x) { return x.item === u.item; })[0]; if (!it) return;
+    var oo = 0, oh = 0; try { oo = num(it.onOrder, 0); oh = num(it.onHand, 0); } catch (err) {}
+    it.onOrder = Math.max(0, oo - u.units); it.onHand = oh + u.units;
+  });
+  r.arrived = new Date().toISOString().slice(0, 10);
+  save(); renderRows(); recalc(); renderLog();
+  toast('Moved ' + r.units.length + ' item' + (r.units.length === 1 ? '' : 's') + ' from on order to on hand');
+});
+$('logBtn').addEventListener('click', function () {
+  var toOrder = lastLines.filter(function (l) { return l.packs > 0; });
+  if (!toOrder.length) return;
+  var entry = {
+    date: new Date().toISOString().slice(0, 10),
+    vendors: toOrder.map(function (l) { return l.vendor; }).filter(function (v, i, a) { return a.indexOf(v) === i; }).join(', '),
+    items: toOrder.map(function (l) { return l.item + ' ×' + l.packs; }).join('; '),
+    total: toOrder.reduce(function (a, l) { return a + l.cost; }, 0),
+    units: toOrder.map(function (l) { return { item: l.item, units: l.packs * l.pack }; })
+  };
+  var before = JSON.parse(JSON.stringify(state.items));
+  entry.units.forEach(function (u) {
+    var it = state.items.filter(function (x) { return x.item === u.item; })[0]; if (!it) return;
+    var oo = 0; try { oo = num(it.onOrder, 0); } catch (err) {}
+    it.onOrder = oo + u.units;
+  });
+  state.log.push(entry); save(); renderRows(); recalc(); renderLog();
+  toast('Logged the order. Those items now show as on order until they arrive.', function () { state.log.pop(); state.items = before; save(); renderRows(); recalc(); renderLog(); });
+});
+
+/* ---------- tabs, toast, boot ---------- */
+document.querySelectorAll('.tab').forEach(function (t) {
+  t.addEventListener('click', function () {
+    document.querySelectorAll('.tab').forEach(function (o) { o.setAttribute('aria-selected', String(o === t)); $(o.getAttribute('aria-controls')).hidden = o !== t; });
+  });
+});
+var toastTimer;
+function toast(text, undo) {
+  $('toastText').textContent = text;
+  var b = $('toastUndo'); b.hidden = !undo; b.onclick = function () { $('toast').hidden = true; if (undo) undo(); };
+  $('toast').hidden = false;
+  clearTimeout(toastTimer); toastTimer = setTimeout(function () { $('toast').hidden = true; }, 5000);
+}
+function load() {
+  Object.keys(SETTING_IDS).forEach(function (id) { $(id).value = state.settings[SETTING_IDS[id]]; });
+  renderRows(); renderVendors(); renderFixes(); renderLog(); recalc();
+}
+load();
+</script>
+</body>
+</html>

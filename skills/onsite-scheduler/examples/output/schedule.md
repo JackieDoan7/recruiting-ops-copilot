@@ -15,7 +15,7 @@ All times are office time. Calendar invites carry the time zone, so each candida
 
 **Thursday, November 19**
 
-| Round | PST | With | Note |
+| Round | PT | With | Note |
 | --- | --- | --- | --- |
 | Role-specific tech screen | 9 AM–9:45 AM | Felix |  |
 
@@ -27,7 +27,7 @@ All times are office time. Calendar invites carry the time zone, so each candida
 
 **Tuesday, November 17**
 
-| Round | PST | With | Note |
+| Round | PT | With | Note |
 | --- | --- | --- | --- |
 | Role-specific tech screen | 10 AM–10:45 AM | Owen |  |
 
@@ -39,7 +39,7 @@ All times are office time. Calendar invites carry the time zone, so each candida
 
 **Friday, November 20**
 
-| Round | PST | With | Note |
+| Round | PT | With | Note |
 | --- | --- | --- | --- |
 | Coffee chat | 9:30 AM–10 AM | Kai, Luis |  |
 | Presentation | 10 AM–11 AM | Gwen, Hana, Nadia |  |
@@ -60,7 +60,7 @@ All times are office time. Calendar invites carry the time zone, so each candida
 
 **Wednesday, November 18**
 
-| Round | PST | With | Note |
+| Round | PT | With | Note |
 | --- | --- | --- | --- |
 | Tech deep dive | 9:30 AM–10:30 AM | Felix |  |
 | Coffee chat | 10:30 AM–11 AM | Kai, Luis |  |

@@ -1,0 +1,895 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="A recruiting coordinator's morning in three steps: what's slipping, writing to candidates, and building their onsite. Sample data.">
+<title>Candidate Desk</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+[hidden] { display: none !important; }
+/* Layout: a coordinator's desk. Left, the morning's pipeline; right, the candidate you picked; below, her onsite on a calendar grid. */
+:root {
+  --bg: #F3F5F7;
+  --surface: #FFFFFF;
+  --sunk: #F7F9FA;
+  --ink: #131A26;
+  --muted: #5A6475;
+  --line: #DCE1E8;
+  --accent: #0B7A68;
+  --accent-ink: #FFFFFF;
+  --accent-soft: #DDF1EC;
+  --free: #E7EEF0;
+  --decision: #B3261E; --decision-bg: #FBE4E1;
+  --fix: #8A5A00;      --fix-bg: #FAEED5;
+  --ok: #1F7A4D;       --ok-bg: #E0F1E7;
+  --info: #2D5BB8;     --info-bg: #E3EBFA;
+  --display: "Schibsted Grotesk", "Helvetica Neue", Arial, system-ui, sans-serif;
+  --body: "Schibsted Grotesk", "Helvetica Neue", Arial, system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0E131B; --surface: #161D28; --sunk: #121822; --ink: #E7ECF3; --muted: #9BA6B7; --line: #2A3445;
+    --accent: #43C9AE; --accent-ink: #062520; --accent-soft: #123A33; --free: #1E2836;
+    --decision: #FF8A80; --decision-bg: #3D1714; --fix: #F2BD5C; --fix-bg: #382A0E;
+    --ok: #6FD39A; --ok-bg: #14301F; --info: #8DB0FF; --info-bg: #17284A;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0E131B; --surface: #161D28; --sunk: #121822; --ink: #E7ECF3; --muted: #9BA6B7; --line: #2A3445;
+  --accent: #43C9AE; --accent-ink: #062520; --accent-soft: #123A33; --free: #1E2836;
+  --decision: #FF8A80; --decision-bg: #3D1714; --fix: #F2BD5C; --fix-bg: #382A0E;
+  --ok: #6FD39A; --ok-bg: #14301F; --info: #8DB0FF; --info-bg: #17284A;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body {
+  background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 15px; line-height: 1.5;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 28px 56px;
+}
+.wrap { max-width: 1200px; margin: 0 auto; display: grid; gap: 22px; }
+.mono, .num { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+.label { font-size: 11.5px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+a { color: var(--accent); }
+button { font: inherit; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* Header */
+header.top { display: grid; gap: 10px; }
+.brand { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 16px; justify-content: space-between; }
+h1 { font-family: var(--display); font-weight: 800; font-size: clamp(30px, 4.4vw, 44px); line-height: 1.02; margin: 0; letter-spacing: -0.02em; }
+h1 .dot { color: var(--accent); }
+.lede { margin: 0; color: var(--muted); max-width: 66ch; font-size: 16px; text-wrap: pretty; }
+.meta { display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; font-size: 13px; color: var(--muted); }
+.meta .tag { border: 1px dashed var(--line); border-radius: 6px; padding: 3px 9px; }
+.steps { display: flex; flex-wrap: wrap; gap: 8px; margin: 4px 0 0; padding: 0; list-style: none; }
+.steps a { display: inline-flex; gap: 8px; align-items: center; text-decoration: none; color: var(--ink); background: var(--surface); border: 1px solid var(--line); border-radius: 999px; padding: 6px 12px 6px 6px; font-size: 13.5px; font-weight: 500; }
+.steps .n { display: inline-grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; background: var(--ink); color: var(--bg); font: 600 12px var(--mono); }
+
+/* Section shells */
+.desk { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 20px; align-items: start; }
+@media (max-width: 900px) { .desk { grid-template-columns: minmax(0, 1fr); } }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 18px; display: grid; gap: 14px; min-width: 0; }
+.panel-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 4px 12px; }
+.panel-head h2 { margin: 0; font-family: var(--display); font-size: 21px; font-weight: 700; letter-spacing: -0.01em; text-wrap: balance; display: flex; gap: 10px; align-items: baseline; }
+.panel-head h2 .n { font: 600 13px var(--mono); color: var(--accent); }
+.panel-head .when { font-size: 13px; color: var(--muted); }
+.summary { margin: 0; font-size: 14.5px; }
+.summary strong { font-weight: 700; }
+
+/* Pulse list */
+.group { display: grid; gap: 8px; }
+.group-title { display: flex; align-items: center; gap: 8px; }
+.group-title .why { font-size: 12.5px; color: var(--muted); }
+.flag { display: grid; grid-template-columns: 4px minmax(0, 1fr) auto; gap: 0 12px; align-items: stretch; width: 100%; text-align: left; background: var(--sunk); border: 1px solid var(--line); border-radius: 9px; padding: 10px 12px 10px 0; cursor: pointer; color: var(--ink); overflow: hidden; }
+.flag:hover { border-color: var(--muted); }
+.flag[aria-pressed="true"] { border-color: var(--accent); background: var(--accent-soft); }
+.flag .stripe { border-radius: 0 3px 3px 0; }
+.flag.decision .stripe { background: var(--decision); }
+.flag.fix .stripe { background: var(--fix); }
+.flag.ok .stripe { background: var(--ok); }
+.flag .who { font-weight: 600; font-size: 14.5px; }
+.flag .sub { font-size: 12.5px; color: var(--muted); }
+.flag .issue { font-size: 13.5px; margin-top: 3px; }
+.flag .age { font: 500 12px var(--mono); color: var(--muted); white-space: nowrap; align-self: start; padding-top: 2px; }
+details.ontrack summary { cursor: pointer; font-size: 13.5px; color: var(--muted); }
+details.ontrack .group { margin-top: 8px; }
+
+/* Pills */
+.pill { display: inline-block; font-size: 11.5px; font-weight: 600; letter-spacing: .02em; padding: 2px 8px; border-radius: 999px; white-space: nowrap; }
+.p-decision { color: var(--decision); background: var(--decision-bg); }
+.p-fix { color: var(--fix); background: var(--fix-bg); }
+.p-ok { color: var(--ok); background: var(--ok-bg); }
+.p-info { color: var(--info); background: var(--info-bg); }
+.p-muted { color: var(--muted); background: var(--sunk); border: 1px solid var(--line); }
+
+/* Candidate detail */
+.cand-head { display: grid; gap: 6px; }
+.cand-name { font-family: var(--display); font-size: 26px; font-weight: 800; letter-spacing: -0.01em; margin: 0; line-height: 1.1; }
+.facts { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 13.5px; color: var(--muted); }
+.facts b { color: var(--ink); font-weight: 600; }
+.callout { border-radius: 9px; padding: 12px 14px; display: grid; gap: 4px; }
+.callout.decision { background: var(--decision-bg); }
+.callout.fix { background: var(--fix-bg); }
+.callout.ok { background: var(--ok-bg); }
+.callout .what { font-weight: 600; }
+.callout .next { font-size: 14px; }
+.brief { border: 1px solid var(--line); border-radius: 10px; padding: 14px; display: grid; gap: 10px; background: var(--sunk); }
+.brief dl { margin: 0; display: grid; grid-template-columns: 128px minmax(0, 1fr); gap: 8px 14px; font-size: 14.5px; }
+.brief dt { font-weight: 600; font-size: 12.5px; color: var(--muted); padding-top: 2px; }
+.brief dd { margin: 0; }
+.brief dd sup { font: 600 10.5px var(--mono); color: var(--accent); margin-left: 1px; }
+@media (max-width: 520px) { .brief dl { grid-template-columns: minmax(0, 1fr); gap: 2px; } .brief dd { margin-bottom: 8px; } }
+.sources { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; font-size: 13px; }
+.sources li { display: grid; grid-template-columns: 22px minmax(0, 1fr) auto; gap: 8px; align-items: start; }
+.sources .ref { font: 600 11px var(--mono); color: var(--accent); padding-top: 2px; }
+.sources .skip { color: var(--muted); }
+.sources .skip .ref { color: var(--muted); }
+.checks { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 12.5px; color: var(--ok); }
+.checks span::before { content: "✓ "; font-weight: 700; }
+.drafts { display: grid; gap: 10px; }
+.draft-tabs { display: flex; flex-wrap: wrap; gap: 6px; }
+.draft-tabs button { border: 1px solid var(--line); background: var(--surface); color: var(--ink); border-radius: 7px; padding: 6px 10px; font-size: 13px; cursor: pointer; }
+.draft-tabs button[aria-selected="true"] { border-color: var(--ink); background: var(--ink); color: var(--bg); }
+textarea.draft { width: 100%; min-height: 220px; resize: vertical; font: 14px/1.55 var(--body); color: var(--ink); background: var(--surface); border: 1px solid var(--line); border-radius: 9px; padding: 12px 14px; }
+textarea.draft:focus { outline: none; border-color: var(--accent); }
+.row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.btn { display: inline-flex; align-items: center; gap: 8px; border-radius: 8px; padding: 9px 14px; font-weight: 600; font-size: 14px; cursor: pointer; border: 1px solid var(--accent); background: var(--accent); color: var(--accent-ink); text-decoration: none; }
+.btn.ghost { background: transparent; color: var(--accent); }
+.btn.quiet { background: transparent; color: var(--ink); border-color: var(--line); }
+.hint { font-size: 12.5px; color: var(--muted); margin: 0; }
+label.review { display: flex; gap: 8px; align-items: center; font-size: 13.5px; font-weight: 600; padding-top: 4px; border-top: 1px solid var(--line); padding-top: 10px; cursor: pointer; }
+label.review input { width: 16px; height: 16px; accent-color: var(--accent); }
+.btn:disabled { opacity: .45; cursor: not-allowed; }
+.after { border-top: 1px solid var(--line); padding-top: 14px; display: grid; gap: 8px; }
+#afterNotes li { grid-template-columns: 160px minmax(0, 1fr); }
+@media (max-width: 520px) { #afterNotes li { grid-template-columns: minmax(0, 1fr); } }
+ol.checklist { margin: 0; padding-left: 20px; display: grid; gap: 6px; font-size: 14.5px; }
+
+/* Onsite */
+.onsite-top { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 10px 20px; align-items: end; }
+@media (max-width: 700px) { .onsite-top { grid-template-columns: minmax(0, 1fr); } }
+.what-if { display: grid; gap: 6px; }
+.what-if select { font: 500 14px var(--body); color: var(--ink); background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; }
+.day-title { font-family: var(--display); font-size: 19px; font-weight: 700; margin: 0; }
+.day-sub { font-size: 13.5px; color: var(--muted); margin: 2px 0 0; }
+.scroller { overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); }
+table { border-collapse: collapse; width: 100%; font-size: 14px; }
+th, td { text-align: left; padding: 9px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+thead th { font-size: 11px; letter-spacing: .07em; text-transform: uppercase; color: var(--muted); font-weight: 600; white-space: nowrap; }
+tbody tr:last-child td { border-bottom: 0; }
+td.t { font-family: var(--mono); font-variant-numeric: tabular-nums; white-space: nowrap; font-size: 13px; }
+td .was { display: block; font-size: 11.5px; color: var(--muted); text-decoration: line-through; }
+.sched { min-width: 560px; }
+
+/* Calendar grid */
+.cal { min-width: 760px; padding: 12px 14px 14px; display: grid; gap: 4px; }
+.cal-row { display: grid; grid-template-columns: 120px minmax(0, 1fr); align-items: center; gap: 10px; }
+.cal-name { font-size: 13px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.cal-name small { color: var(--muted); font-weight: 400; }
+.track { position: relative; height: 30px; background: var(--sunk); border-radius: 6px; }
+.ticks { position: relative; height: 18px; }
+.ticks span { position: absolute; transform: translateX(-50%); font: 11px var(--mono); color: var(--muted); }
+.gridline { position: absolute; top: 0; bottom: 0; width: 1px; background: var(--line); }
+.blk { position: absolute; top: 4px; bottom: 4px; border-radius: 5px; }
+.blk.free { background: var(--free); outline: 1px solid var(--line); outline-offset: -1px; }
+.blk.round { background: var(--accent); color: var(--accent-ink); font-size: 11.5px; font-weight: 600; padding: 0 6px; display: flex; align-items: center; overflow: hidden; white-space: nowrap; }
+.blk.round.moved { background: var(--info); color: var(--surface); }
+.blk.out { top: 4px; bottom: 4px; left: 0; right: 0; background: repeating-linear-gradient(135deg, var(--decision-bg) 0 6px, transparent 6px 12px); outline: 1px solid var(--decision); outline-offset: -1px; display: flex; align-items: center; padding-left: 8px; font-size: 11.5px; color: var(--decision); font-weight: 600; }
+.blk.gap { background: repeating-linear-gradient(135deg, var(--fix-bg) 0 6px, transparent 6px 12px); outline: 1px dashed var(--fix); outline-offset: -1px; }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 12px; color: var(--muted); padding: 0 2px; }
+.legend i { display: inline-block; width: 18px; height: 10px; border-radius: 3px; vertical-align: -1px; margin-right: 6px; }
+.onsite-grid { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 18px; align-items: start; }
+@media (max-width: 900px) { .onsite-grid { grid-template-columns: minmax(0, 1fr); } }
+ul.notes { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; font-size: 14px; }
+ul.notes li { display: grid; grid-template-columns: 116px minmax(0, 1fr); gap: 10px; }
+ul.notes li b { font-weight: 600; font-size: 13px; }
+@media (max-width: 520px) { ul.notes li { grid-template-columns: minmax(0, 1fr); gap: 0; } }
+
+footer { color: var(--muted); font-size: 13px; display: grid; gap: 4px; }
+.toast { position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(20px + env(safe-area-inset-bottom, 0px)); background: var(--ink); color: var(--bg); padding: 10px 14px; border-radius: 8px; font-size: 14px; z-index: 20; max-width: calc(100vw - 32px); }
+@media (prefers-reduced-motion: no-preference) { .blk { transition: left .25s ease, width .25s ease; } .flag { transition: border-color .15s, background .15s; } }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header class="top">
+    <div class="brand">
+      <h1>Candidate Desk<span class="dot">.</span></h1>
+      <div class="meta"><span class="tag">Everyone and every calendar here is made up</span><a id="codeLink" href="#" target="_blank" rel="noopener" hidden>See the code</a></div>
+    </div>
+    <p class="lede">One coordinator morning, start to finish. Find who's slipping in the pipeline, write to them like a person who knows their work, and build their onsite so they only have to think about the interviews.</p>
+    <ol class="steps">
+      <li><a href="#pulse"><span class="n">1</span>What's slipping</a></li>
+      <li><a href="#candidate"><span class="n">2</span>Write to them</a></li>
+      <li><a href="#onsite"><span class="n">3</span>Build the onsite</a></li>
+    </ol>
+  </header>
+
+  <div class="desk">
+    <section class="panel" id="pulse" aria-labelledby="pulseTitle">
+      <div class="panel-head">
+        <h2 id="pulseTitle"><span class="n">1</span>This morning</h2>
+        <span class="when">Monday, Nov 9 · 9:00 AM PT</span>
+      </div>
+      <p class="summary" id="pulseSummary"></p>
+      <div id="pulseGroups" class="group" style="gap:16px"></div>
+      <p class="hint">Rules: every candidate hears from us within 72 hours, scorecards within 24 hours of an interview, availability booked within 2 days. Read-only: nothing changes in Ashby until a person does it.</p>
+    </section>
+
+    <section class="panel" id="candidate" aria-live="polite" aria-labelledby="candTitle"></section>
+  </div>
+
+  <section class="panel" id="onsite" aria-labelledby="onsiteTitle">
+    <div class="onsite-top">
+      <div class="panel-head" style="display:grid;gap:4px">
+        <h2 id="onsiteTitle"><span class="n">3</span>Maya's onsite</h2>
+        <p class="day-sub" style="margin:0">Flying in from Boston. In San Francisco all day Wednesday, with Thursday morning as a backup. Four rounds, all on one day.</p>
+      </div>
+      <label class="what-if">
+        <span class="label">What if someone drops out on the day?</span>
+        <select id="dropout">
+          <option value="">Nobody, the plan as sent</option>
+          <option value="Kai">Kai, coffee chat</option>
+          <option value="Felix">Felix, tech deep dive and presentation</option>
+          <option value="Isaac">Isaac, GM interview and presentation</option>
+        </select>
+      </label>
+    </div>
+    <div>
+      <h3 class="day-title" id="dayTitle"></h3>
+      <p class="day-sub" id="daySub"></p>
+    </div>
+    <div class="scroller"><table class="sched"><thead><tr><th>Round</th><th>Time (PT)</th><th>With</th><th id="statusHead">Notes</th></tr></thead><tbody id="schedBody"></tbody></table></div>
+    <p class="hint" style="margin-top:-8px"><b>One time zone on our side.</b> Everything here is in PT, the office's time, so nobody on the team does time zone math. The calendar invites carry the time zone, so Maya's calendar shows her the times in her own zone automatically.</p>
+    <div class="scroller"><div class="cal" id="cal"></div></div>
+    <div class="legend"><span><i style="background:var(--free);outline:1px solid var(--line)"></i>Free on their calendar</span><span><i style="background:var(--accent)"></i>Booked with Maya</span><span><i style="background:var(--info)"></i>Moved on the day</span><span><i style="background:repeating-linear-gradient(135deg,var(--fix-bg) 0 4px,transparent 4px 8px);outline:1px dashed var(--fix)"></i>Open gap to fill</span></div>
+    <div class="onsite-grid">
+      <div class="drafts">
+        <div class="row" style="justify-content:space-between"><span class="label" id="onsiteDraftLabel">Itinerary email</span><button class="btn ghost" id="copyOnsite" type="button">Copy</button></div>
+        <textarea class="draft" id="onsiteDraft" aria-labelledby="onsiteDraftLabel" style="min-height:300px"></textarea>
+      </div>
+      <div class="drafts">
+        <span class="label" id="planLabel">Backup plan, decided before the day</span>
+        <ul class="notes" id="planNotes"></ul>
+      </div>
+    </div>
+    <div class="after">
+      <span class="label">After the onsite: closing the loop</span>
+      <ul class="notes" id="afterNotes"></ul>
+      <p class="hint">If anything here slips, it shows up in step 1 the next morning.</p>
+    </div>
+  </section>
+
+  <footer>
+    <span>Built by Jackie Doan as a follow-up to the Recruiting Coordinator &amp; Office Manager onsite. In the real version, each step is a Claude skill working from Ashby and Google Calendar; this page runs the same logic on sample data.</span>
+    <span>Ashby already handles a lot of this, like auto-scheduling and its built-in assistant, and I'd start there. These steps cover the gaps: our own timelines, backup plans, and research outside Ashby.</span>
+  </footer>
+</div>
+<div class="toast" id="toast" hidden role="status" aria-live="polite"></div>
+
+<script>
+/* Set this to the GitHub repo URL to show the "See the code" link. */
+var REPO_URL = 'https://github.com/JackieDoan7/recruiting-ops-copilot';
+
+/* LOGIC START ---------------------------------------------------------------- */
+var HOUR = 3600e3, DAY = 24 * HOUR, MIN = 60e3;
+var NOW = Date.parse('2026-11-09T09:00:00-08:00');
+var PT = 'America/Los_Angeles';
+
+/* ---- Pipeline Pulse (same rules as skills/pipeline-pulse/scripts/pipeline_pulse.py) ---- */
+var CFG = {
+  sla: { stale: 72, feedback: 24, availability: 48, escalateDays: 7 },
+  kinds: { 'application review': 'review', 'initial screen': 'screen', 'recruiter screen': 'screen',
+    'availability submitted': 'availability', 'role specific tech': 'interview', 'technical interview': 'interview',
+    'on site': 'onsite', 'onsite': 'onsite', 'final interview': 'final', 'gm interview': 'final',
+    'reference check': 'offer', 'offer': 'offer' },
+  weights: { review: 1, screen: 2, availability: 3, interview: 3, onsite: 4, final: 5, offer: 6, other: 2 },
+  strong: ['strong', 'liked', 'top candidate', 'priority', 'excited', 'great'],
+  passed: ['not a fit', 'no hire', 'no-hire', 'rejected', 'reject', 'passing on', 'pass on them', 'decided to pass', "we'll pass"]
+};
+var FLAG_INFO = { strong_stalled: [60, true], passed_still_active: [45, true], duplicate_conflict: [40, true],
+  feedback_overdue_escalate: [50, true], feedback_overdue: [35, false], availability_waiting: [35, false],
+  stale: [25, false], duplicate: [20, false], possible_duplicate: [12, false], no_owner: [15, false], comp_in_notes: [5, false] };
+
+function parseWhen(v, now) {
+  v = String(v || '').trim();
+  if (!v || v === '—' || v.toLowerCase() === 'none') return null;
+  var low = v.toLowerCase();
+  if (low === 'today') return now;
+  var rel = low.match(/^(\d+)\s*(minute|hour|day|week)s?\s+ago$/);
+  if (rel) return now - Number(rel[1]) * { minute: MIN, hour: HOUR, day: DAY, week: 7 * DAY }[rel[2]];
+  var t = Date.parse(v);
+  if (isNaN(t)) throw new Error('Unreadable date ' + v);
+  return t;
+}
+function hasSignal(text, words) {
+  return words.some(function (w) { return new RegExp('(^|[^a-z])' + w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '([^a-z]|$)').test(text); });
+}
+function kindOf(stage) { return CFG.kinds[stage.trim().toLowerCase()] || 'other'; }
+function age(ms) { var h = ms / HOUR; return h < 48 ? Math.round(h) + ' hours' : Math.round(h / 24) + ' days'; }
+var COMP_AMOUNT = /\$\s?\d[\d,.]*\s?[kKmM]?\b|\b\d{2,3}(?:\.\d)?\s?[kK]\b|\b\d{1,2}(?:\.\d+)?\s?[mM]\b|\b\d{2,3},\d{3}\b|\b\d{5,7}\b/g;
+var COMP_WORD = /\b(comp|compensation|salary|base salary|base pay|equity|ote|total comp|tc|expect\w*|asking|offer)\b/i;
+function mentionsComp(text) {
+  var m; COMP_AMOUNT.lastIndex = 0;
+  while ((m = COMP_AMOUNT.exec(text))) {
+    var win = text.slice(Math.max(0, m.index - 40), m.index + m[0].length + 40);
+    if (COMP_WORD.test(win) || m[0].trim().charAt(0) === '$') return true;
+  }
+  return false;
+}
+function makeFlag(code, app, issue, action, extra) {
+  var info = FLAG_INFO[code];
+  var urgency = info[0] + 5 * CFG.weights[kindOf(app.stage)] + (extra || 0) +
+    (hasSignal((app.feedback + ' ' + app.notes).toLowerCase(), CFG.strong) ? 10 : 0);
+  return { code: code, id: app.id, candidate: app.candidate, role: app.role, stage: app.stage, owner: app.owner || 'unassigned',
+    issue: issue, action: action, urgency: urgency, decision: info[1] };
+}
+function checkApp(a, now) {
+  var flags = [], sla = CFG.sla;
+  if (['active', 'lead', ''].indexOf(a.status.toLowerCase()) < 0) return flags;
+  var kind = kindOf(a.stage), text = (a.feedback + ' ' + a.notes).toLowerCase();
+  var strong = hasSignal(text, CFG.strong), passed = hasSignal(a.feedback.toLowerCase(), CFG.passed);
+  var idle = a.last != null ? now - a.last : null;
+  var upcoming = a.next != null && a.next > now;
+  var over = idle != null ? idle - sla.stale * HOUR : 0;
+  var extra = over > 0 ? Math.floor(over / DAY) : 0;
+  if (passed) {
+    flags.push(makeFlag('passed_still_active', a, 'Feedback says pass, but the application is still active.',
+      'Confirm the decision with the owner, archive with the right reason, and send a warm, personal close-out.'));
+    return flags;
+  }
+  var finished = a.done;
+  if (finished == null && kind === 'onsite' && !upcoming && a.feedbackCount === 0 && idle != null) finished = a.last;
+  if (finished != null && finished < now && a.feedbackCount === 0) {
+    var late = now - finished - sla.feedback * HOUR;
+    if (late > 0) {
+      if (late > sla.escalateDays * DAY) flags.push(makeFlag('feedback_overdue_escalate', a, 'No scorecards ' + age(now - finished) + ' after the interview.',
+        'Find out what\'s blocking feedback, then book the debrief. The candidate is waiting on us.', extra));
+      else flags.push(makeFlag('feedback_overdue', a, 'Scorecards are ' + age(late) + ' past the ' + sla.feedback + '-hour mark.',
+        'Send each interviewer a direct link to their scorecard and book the debrief.'));
+    }
+  }
+  if (kind === 'availability' && idle != null && idle > sla.availability * HOUR && !upcoming)
+    flags.push(makeFlag('availability_waiting', a, 'Gave availability ' + age(idle) + ' ago and nothing is booked.',
+      'Their windows have probably passed: apologize, ask for fresh times, and book within the same week.', extra));
+  var have = flags.map(function (f) { return f.code; });
+  var busy = ['availability_waiting', 'feedback_overdue', 'feedback_overdue_escalate'].some(function (c) { return have.indexOf(c) >= 0; });
+  if (idle != null && idle > sla.stale * HOUR && !upcoming && !busy) {
+    if (strong) flags.push(makeFlag('strong_stalled', a, 'Strong signal in the notes, but no activity for ' + age(idle) + '.',
+      'Ask the owner what\'s holding it up today and agree on the next step. Strong candidates usually have other offers.', extra));
+    else flags.push(makeFlag('stale', a, 'No activity for ' + age(idle) + ' (promise is ' + sla.stale + ' hours).',
+      'Send the candidate a status update and nudge the owner for the next step.', extra));
+  }
+  if (!a.owner) flags.push(makeFlag('no_owner', a, 'No owner on this application.', 'Assign an owner so it can\'t slip through the cracks.'));
+  if (mentionsComp(a.notes)) flags.push(makeFlag('comp_in_notes', a, 'Compensation details are sitting in a general notes field.',
+    'Move them to a private field visible only to the hiring team.'));
+  return flags;
+}
+function pulse(rows, now) {
+  var apps = rows.map(function (r, i) {
+    var fb = r.feedback || '';
+    var count = fb === '' ? null : (/^(none|—|-)$/i.test(fb) ? 0 : 1);
+    return { id: r.id, row: i, candidate: r.candidate, email: (r.email || '').toLowerCase(), role: r.role, stage: r.stage,
+      last: parseWhen(r.last_activity, now), next: parseWhen(r.next_interview, now), done: parseWhen(r.interview_completed_at, now),
+      feedback: /^(none|—|-)$/i.test(fb) ? '' : fb, feedbackCount: count, notes: r.notes || '',
+      owner: /^(\(none\)|none|—)?$/i.test(r.owner || '') ? '' : r.owner, status: r.status || 'Active' };
+  });
+  var flags = [], older = {};
+  for (var i = 0; i < apps.length; i++) for (var j = i + 1; j < apps.length; j++) {
+    var a = apps[i], b = apps[j];
+    if (!(a.email && a.email === b.email)) continue;
+    var pair = [a, b].sort(function (x, y) { return (y.last || 0) - (x.last || 0); }), newer = pair[0], old = pair[1];
+    var f = (a.stage.toLowerCase() !== b.stage.toLowerCase() || (a.owner && b.owner && a.owner !== b.owner))
+      ? makeFlag('duplicate_conflict', newer, 'Two records with the same email disagree: \'' + newer.stage + '\' (owner ' + (newer.owner || 'none') + ') vs \'' + old.stage + '\' (owner ' + (old.owner || 'none') + ').',
+        'Confirm which is current (likely \'' + newer.stage + '\'), merge into that record, and keep all feedback.')
+      : makeFlag('duplicate', newer, 'Duplicate profile (same email).', 'Merge the two records, keeping all feedback.');
+    flags.push(f); older[old.row] = true;
+  }
+  apps.forEach(function (a) {
+    var fs = checkApp(a, now);
+    if (older[a.row]) fs = fs.filter(function (f) { return f.code === 'comp_in_notes'; });
+    flags = flags.concat(fs);
+  });
+  flags.sort(function (x, y) { return y.urgency - x.urgency || (x.candidate < y.candidate ? -1 : 1); });
+  return { apps: apps, flags: flags, active: apps.filter(function (a) { return ['active', 'lead', ''].indexOf(a.status.toLowerCase()) >= 0; }) };
+}
+
+/* ---- Onsite Scheduler (same approach as skills/onsite-scheduler/scripts/schedule.py) ---- */
+var STEP = 15 * MIN, OPEN = 9 * 60, CLOSE = 17 * 60 + 30;
+function ptMinutes(t) { var d = new Date(t - 8 * HOUR); return d.getUTCHours() * 60 + d.getUTCMinutes(); } /* sample week is all PST */
+function ptDay(t) { return new Date(t - 8 * HOUR).toISOString().slice(0, 10); }
+function ptWeekday(t) { return new Date(t - 8 * HOUR).getUTCDay(); }
+function within(s, e, b) { return b.s <= s && e <= b.e; }
+function overlaps(s1, e1, s2, e2) { return s1 < e2 && s2 < e1; }
+function isFree(p, s, e, free, booked) {
+  if (!(free[p] || []).some(function (b) { return within(s, e, b); })) return false;
+  return !(booked[p] || []).some(function (b) { return overlaps(s, e, b.s, b.e); });
+}
+function candidateStarts(block, rnd) {
+  var out = [], dur = rnd.minutes * MIN;
+  var t = block.s + ((STEP - (block.s % STEP)) % STEP);
+  for (; t + dur <= block.e; t += STEP) {
+    var a = ptMinutes(t), b = a + rnd.minutes;
+    if (a < OPEN || b > CLOSE) continue;
+    if (rnd.window && (a < rnd.window[0] || b > rnd.window[1])) continue;
+    out.push([t, t + dur]);
+  }
+  return out;
+}
+function optionsFor(rnd, block, rounds, free, booked, useBackups, busyCand) {
+  var out = [];
+  candidateStarts(block, rnd).forEach(function (se) {
+    var s = se[0], e = se[1];
+    if (busyCand && busyCand.some(function (b) { return overlaps(s, e, b.s, b.e); })) return;
+    var req = rnd.required.slice(), used = null;
+    var missing = req.filter(function (p) { return !isFree(p, s, e, free, booked); });
+    if (missing.length) {
+      if (!useBackups || missing.length > 1) return;
+      var bk = rnd.backups.filter(function (b) { return req.indexOf(b) < 0 && isFree(b, s, e, free, booked); })[0];
+      if (!bk) return;
+      used = bk + ' (for ' + missing[0] + ')';
+      req = req.map(function (p) { return p === missing[0] ? bk : p; });
+    }
+    var panel = {};
+    if (rnd.notPanel) rounds.forEach(function (r) { if (r !== rnd) r.required.concat(r.pool).forEach(function (p) { panel[p] = 1; }); });
+    var pool = rnd.pool.filter(function (p) { return req.indexOf(p) < 0 && !panel[p] && isFree(p, s, e, free, booked); });
+    if (rnd.pool.length && pool.length < rnd.min) return;
+    if (rnd.max) pool = pool.slice(0, rnd.max);
+    out.push({ round: rnd, s: s, e: e, people: req.concat(pool), usedBackup: used });
+  });
+  return out;
+}
+function cost(r) { return r.minutes * (1 + r.required.length + (r.pool.length ? r.min : 0)); }
+function solveCandidate(cand, free) {
+  var idx = {}; cand.rounds.forEach(function (r, i) { idx[r.name] = i; });
+  function score(plan) {
+    if (!plan.length) return [0, 0, 0, 0, 0];
+    var s = Math.min.apply(null, plan.map(function (p) { return p.s; })), e = Math.max.apply(null, plan.map(function (p) { return p.e; }));
+    var seq = plan.slice().sort(function (a, b) { return a.s - b.s; }), inv = 0;
+    for (var i = 1; i < seq.length; i++) if (idx[seq[i - 1].round.name] > idx[seq[i].round.name]) inv++;
+    return [-plan.length, -plan.reduce(function (t, p) { return t + cost(p.round); }, 0), e - s, inv, s];
+  }
+  function less(a, b) { for (var i = 0; i < a.length; i++) { if (a[i] !== b[i]) return a[i] < b[i]; } return false; }
+  function consistent(p, plan) {
+    return plan.every(function (q) {
+      if (overlaps(p.s, p.e, q.s, q.e)) return false;
+      return true;
+    });
+  }
+  var best = null;
+  cand.availability.forEach(function (block) {
+    var opts = {};
+    cand.rounds.forEach(function (r) {
+      opts[r.name] = optionsFor(r, block, cand.rounds, free, {}, false);
+      if (!opts[r.name].length && r.backups.length) opts[r.name] = optionsFor(r, block, cand.rounds, free, {}, true);
+    });
+    var order = cand.rounds.slice().sort(function (a, b) { return opts[a.name].length - opts[b.name].length; });
+    var placeable = order.filter(function (r) { return opts[r.name].length; }).length;
+    var total = order.reduce(function (t, r) { return t + (opts[r.name].length ? r.minutes : 0); }, 0) * MIN;
+    var dayBest = null, nodes = 0;
+    function perfect(k) { return k && -k[0] === placeable && k[2] <= total && k[3] === 0; }
+    (function dfs(i, plan) {
+      if (++nodes > 200000 || perfect(dayBest)) return;
+      if (dayBest && plan.length + (order.length - i) < -dayBest[0]) return;
+      if (i === order.length) { var k = score(plan); if (!dayBest || less(k, dayBest)) { dayBest = k; dayBest.plan = plan.slice(); } return; }
+      opts[order[i].name].forEach(function (p) { if (consistent(p, plan)) { plan.push(p); dfs(i + 1, plan); plan.pop(); } });
+      dfs(i + 1, plan);
+    })(0, []);
+    if (dayBest && (!best || less(dayBest, best))) best = dayBest;
+  });
+  var placed = (best ? best.plan : []).slice().sort(function (a, b) { return a.s - b.s; });
+  var names = placed.map(function (p) { return p.round.name; });
+  return { placed: placed, missing: cand.rounds.filter(function (r) { return names.indexOf(r.name) < 0; }) };
+}
+function bookingsOf(placed) {
+  var b = {}; placed.forEach(function (p) { p.people.forEach(function (x) { (b[x] = b[x] || []).push({ s: p.s, e: p.e }); }); }); return b;
+}
+function nextJointSlot(people, minutes, after, free, booked) {
+  var dur = minutes * MIN, first = (free[people[0]] || []);
+  for (var k = 0; k < first.length; k++) {
+    var b = first[k];
+    for (var t = Math.max(b.s, after); t + dur <= b.e; t += STEP) {
+      var a = ptMinutes(t), wd = ptWeekday(t);
+      if (wd === 0 || wd === 6 || a < OPEN || a + minutes > CLOSE) continue;
+      if (people.every(function (p) { return isFree(p, t, t + dur, free, booked); })) return { s: t, e: t + dur };
+    }
+  }
+  return null;
+}
+function backupPlan(placed, free, cand) {
+  var booked = bookingsOf(placed), notes = [];
+  placed.forEach(function (p) {
+    var uncovered = [];
+    p.people.forEach(function (person) {
+      var rest = p.people.filter(function (x) { return x !== person; });
+      var poolLeft = rest.filter(function (x) { return p.round.pool.indexOf(x) >= 0; });
+      if (p.round.pool.indexOf(person) >= 0 && poolLeft.length >= p.round.min) { notes.push([p.round.name, 'If ' + person + ' drops, ' + poolLeft.join(' and ') + ' can do it alone.']); return; }
+      var pool = p.round.pool.indexOf(person) >= 0 ? p.round.pool : [];
+      var cover = pool.concat(p.round.backups).filter(function (x) { return p.people.indexOf(x) < 0 && isFree(x, p.s, p.e, free, booked); })[0];
+      if (cover) notes.push([p.round.name, 'If ' + person + ' drops, ' + cover + ' covers at the same time.']);
+      else if (p.round.backups.length || pool.length) notes.push([p.round.name, 'If ' + person + ' drops, the backup (' + p.round.backups.concat(pool).filter(function (x) { return x !== person; }).join(', ') + ') is busy then. Move it later in the day, or offer a video call later in the week.']);
+      else uncovered.push(person);
+    });
+    if (uncovered.length) {
+      var day = ptDay(p.s), alt = null;
+      if (cand && p.people.length === 1) cand.availability.filter(function (b) { return ptDay(b.s) !== day; }).forEach(function (b) {
+        if (!alt) alt = optionsFor(p.round, b, cand.rounds, free, booked, false)[0] || null;
+      });
+      notes.push([p.round.name, alt ? 'If ' + uncovered[0] + ' drops, move it to ' + fmtDay(alt.s) + ', ' + fmtRange(alt.s, alt.e, PT) + ' PT, while she\'s still in town.' : 'No backup named for ' + uncovered.join(', ') + '. Pick one before sending.']);
+    }
+  });
+  return notes;
+}
+/* Same-day dropout: keep every round that doesn't involve the person exactly where it is.
+   For the rest: same time with a cover, else move later that day, else a video call later in the week. */
+function replanDropout(cand, placed, person, free) {
+  var day = ptDay(placed[0].s);
+  var free2 = {}; Object.keys(free).forEach(function (k) { free2[k] = free[k].filter(function (b) { return !(k === person && ptDay(b.s) === day); }); });
+  var keep = [], hit = [];
+  placed.forEach(function (p) { (p.people.indexOf(person) >= 0 ? hit : keep).push(p); });
+  var result = keep.map(function (p) { return { p: p, status: 'same' }; });
+  var booked = bookingsOf(keep), suggested = {};
+  var busyCand = keep.map(function (p) { return { s: p.s, e: p.e }; });
+  function add(p, np, status, note) {
+    result.push({ p: np, status: status, note: note, was: p });
+    if (np.s) { np.people.forEach(function (x) { (booked[x] = booked[x] || []).push({ s: np.s, e: np.e }); }); busyCand.push({ s: np.s, e: np.e }); }
+  }
+  /* Pass 1: covers at the same time, hardest-to-move rounds first. */
+  var later = [];
+  hit.slice().sort(function (a, b) { return cost(b.round) - cost(a.round); }).forEach(function (p) {
+    var r = p.round, rest = p.people.filter(function (x) { return x !== person; });
+    var poolLeft = rest.filter(function (x) { return r.pool.indexOf(x) >= 0; });
+    if (r.pool.indexOf(person) >= 0 && poolLeft.length >= r.min) return add(p, { round: r, s: p.s, e: p.e, people: rest }, 'covered', poolLeft.join(' and ') + ' runs it alone. Nothing changes for Maya.');
+    var pool = r.pool.indexOf(person) >= 0 ? r.pool : [];
+    var cover = pool.concat(r.backups).filter(function (x) { return rest.indexOf(x) < 0 && x !== person && isFree(x, p.s, p.e, free2, booked); })[0];
+    if (cover) return add(p, { round: r, s: p.s, e: p.e, people: rest.concat(cover) }, 'covered', cover + ' covers at the same time. Nothing changes for Maya.');
+    later.push(p);
+  });
+  /* Pass 2: move later that day, then to her backup day while she's still in town, then a video call. */
+  later.forEach(function (p) {
+    var r = p.round;
+    var blocks = cand.availability.filter(function (b) { return ptDay(b.e) >= day; });
+    for (var k = 0; k < blocks.length; k++) {
+      var opts = optionsFor(r, blocks[k], cand.rounds, free2, booked, true, busyCand);
+      if (opts.length) {
+        var o = opts[0], other = ptDay(o.s) !== day;
+        return add(p, o, 'moved', 'Moved to ' + (other ? fmtDay(o.s) + ', ' : '') + fmtRange(o.s, o.e, PT) + ' with ' + o.people.join(', ') + (other ? ', while she\'s still in town.' : '.'));
+      }
+    }
+    var need = r.required.length ? r.required : r.pool.slice(0, r.min);
+    var after = cand.availability[cand.availability.length - 1].e;
+    var vc = nextJointSlot(need, r.minutes, after, free, Object.assign({}, booked, suggested));
+    if (vc) need.forEach(function (x) { (suggested[x] = suggested[x] || []).push(vc); });
+    add(p, { round: r, s: null, e: null, people: need, video: vc }, 'video', vc ? 'Video call on ' + fmtDay(vc.s) + ', ' + fmtRange(vc.s, vc.e, PT) + ' PT, when ' + need.join(', ') + (need.length > 1 ? ' are' : ' is') + ' free.' : 'Video call later in the week.');
+  });
+  result.sort(function (a, b) { return (a.p.s || Infinity) - (b.p.s || Infinity); });
+  var onDay = result.filter(function (x) { return x.p.s && ptDay(x.p.s) === day; }).map(function (x) { return x.p; });
+  var gaps = [];
+  for (var i = 1; i < onDay.length; i++) if (onDay[i].s - onDay[i - 1].e >= 30 * MIN) gaps.push({ s: onDay[i - 1].e, e: onDay[i].s });
+  return { rows: result, gaps: gaps };
+}
+
+/* ---- formatting ---- */
+function fmtTime(t, tz) {
+  var parts = new Intl.DateTimeFormat('en-US', { timeZone: tz, hour: 'numeric', minute: '2-digit', hour12: true }).formatToParts(new Date(t));
+  var h = '', m = '', ap = '';
+  parts.forEach(function (p) { if (p.type === 'hour') h = p.value; if (p.type === 'minute') m = p.value; if (p.type === 'dayPeriod') ap = p.value.toUpperCase(); });
+  return (m === '00' ? h : h + ':' + m) + ' ' + ap;
+}
+function fmtRange(s, e, tz) {
+  var a = fmtTime(s, tz), b = fmtTime(e, tz);
+  if (a.slice(-2) === b.slice(-2)) a = a.slice(0, -3);
+  return a + '–' + b;
+}
+function fmtDay(t) { return new Intl.DateTimeFormat('en-US', { timeZone: PT, weekday: 'short', month: 'short', day: 'numeric' }).format(new Date(t)); }
+function fmtLongDay(t) { return new Intl.DateTimeFormat('en-US', { timeZone: PT, weekday: 'long', month: 'long', day: 'numeric' }).format(new Date(t)); }
+/* LOGIC END ------------------------------------------------------------------ */
+
+/* ---------- sample data (made up) ---------- */
+var PIPELINE = [
+  { id: 'maya', candidate: 'Maya Okonkwo', email: 'maya.o@example.com', role: 'ML Engineer', stage: 'Technical Interview', last_activity: '2026-10-16T11:00-07:00', feedback: 'Passed tech', notes: 'Strong, hiring manager is excited', owner: 'Jordan' },
+  { id: 'leo', candidate: 'Leo Martins', email: 'leo.m@example.com', role: 'Forward Deployed Engineer', stage: 'Recruiter Screen', last_activity: '2026-11-07T15:00-08:00', next_interview: '2026-11-10T10:00-08:00', notes: 'Scheduled for Tuesday', owner: 'Jordan' },
+  { id: 'ana-old', candidate: 'Ana Lima', email: 'ana.lima@example.com', role: 'Forward Deployed Engineer', stage: 'Initial Screen', last_activity: '2026-10-29T10:00-07:00', notes: 'old record', owner: '' },
+  { id: 'ana', candidate: 'Ana Lima', email: 'ana.lima@example.com', role: 'Forward Deployed Engineer', stage: 'Technical Interview', last_activity: '2026-11-07T13:00-08:00', next_interview: '2026-11-11T09:00-08:00', notes: 'Tech round booked', owner: 'Jordan' },
+  { id: 'sam', candidate: 'Sam Rivera', email: 'sam.r@example.com', role: 'Data Engineer', stage: 'On Site', last_activity: '2026-10-23T17:00-07:00', interview_completed_at: '2026-10-23T16:00-07:00', feedback: 'None', notes: 'Onsite completed', owner: 'Jordan' },
+  { id: 'grace', candidate: 'Grace Huang', email: 'grace.h@example.com', role: 'ML Engineer', stage: 'Availability Submitted', last_activity: '2026-10-20T09:00-07:00', notes: 'Submitted availability for Oct 21-23', owner: 'Jordan' },
+  { id: 'omar', candidate: 'Omar Haddad', email: 'omar.h@example.com', role: 'Forward Deployed Engineer', stage: 'Technical Interview', last_activity: '2026-11-04T10:00-08:00', notes: 'Comp expectation $240k base, keep confidential', owner: 'Jordan' },
+  { id: 'ben', candidate: 'Ben Carter', email: 'ben.c@example.com', role: 'ML Engineer', stage: 'Initial Screen', last_activity: '1 day ago', notes: 'London, flexible', owner: 'Jordan' },
+  { id: 'nora', candidate: 'Nora Lind', email: 'nora.l@example.com', role: 'Reliability Engineer', stage: 'Final Interview', last_activity: '2026-11-03T15:00-08:00', feedback: 'Not a fit, per GM', notes: 'GM passed after final', owner: 'Riley' },
+  { id: 'ivy', candidate: 'Ivy Chen', email: 'ivy.c@example.com', role: 'Software Engineer', stage: 'On Site', last_activity: '2026-11-06T15:00-08:00', interview_completed_at: '2026-11-06T15:00-08:00', feedback: 'None', notes: 'Onsite went smoothly', owner: 'Jordan' },
+  { id: 'ethan', candidate: 'Ethan Park', email: 'ethan.p@example.com', role: 'Software Engineer', stage: 'On Site', last_activity: '2026-11-06T10:00-08:00', next_interview: '2026-11-13T09:00-08:00', notes: 'Onsite Friday', owner: 'Jordan' },
+  { id: 'zoe', candidate: 'Zoe Patel', email: 'zoe.p@example.com', role: 'Software Engineer', stage: 'Offer', last_activity: '2026-10-01T10:00-07:00', feedback: 'Hired', notes: 'Accepted offer', owner: 'Jordan', status: 'Hired' }
+];
+
+var MAYA_BRIEF = {
+  rows: [
+    ['Now', 'ML engineer at Example Robotics, where she built the pipeline that filters about 2 million hours of egocentric video down to the clips worth training on.', [1, 4]],
+    ['Best known for', 'First author on a paper about finding near-duplicate clips at billion-clip scale, cited about 180 times, and vdedup, the open-source tool from it, with about 2,400 GitHub stars.', [2, 3]],
+    ['Why it connects', 'Deciding which video is worth training on is close to what our team works on, and she has done it at scale.', []],
+    ['Opener', '"Your work on finding near-duplicate clips at scale is very close to problems our team works on every day."', []]
+  ],
+  sources: [
+    [1, 'Personal site', 'Linked from her application', 'verified'],
+    [2, 'vdedup, open-source repo · ~2,400 stars', 'GitHub handle from her application', 'verified'],
+    [3, 'Near-Duplicate Video Detection at Billion-Clip Scale · 2025 · ~180 citations', 'Name and employer match', 'likely'],
+    [4, 'Talk: Filtering 2M hours of egocentric video · 2026', 'Name and employer match', 'likely']
+  ],
+  skipped: ['Speech Enhancement for Hearing Aids · M. Okonkwo · 2023', 'Name match only, different field and employer. Not used.']
+};
+
+var OPENER = 'Your work on finding near-duplicate clips at scale is very close to problems our team works on every day.';
+var DRAFTS = {
+  maya: [
+    ['Slack to Jordan', 'Hi Jordan, Maya Okonkwo (ML Engineer) passed her tech round on Oct 16 and the notes say the hiring manager is excited, but she hasn\'t heard from us in 24 days. Is anything holding up the onsite? If not, I\'ll send her times for Wednesday, Nov 18 today.'],
+    ['Email to Maya', 'Subject: Next step: your onsite with us\n\nHi Maya,\n\nI\'m sorry for the quiet stretch since your technical interview. That\'s on us, and it isn\'t a sign of how it went: the team was impressed. ' + OPENER + '\n\nWe\'d love to bring you to San Francisco for an onsite. Would Wednesday, November 18 work, with Thursday morning as a backup? I\'ll send a link to book your flight and hotel, and we\'ll pay for them directly. You\'ll get the full schedule as soon as it\'s set.\n\nBest,\nJackie', true]
+  ],
+  sam: [
+    ['Slack to the panel', 'Hi Gwen and Owen, Sam Rivera\'s onsite was Oct 23 and we still don\'t have scorecards. Sam is waiting on an answer. Could you submit yours today? Here\'s the direct link: [scorecard link]. If anything about what to score is unclear, I\'m happy to walk through it. I\'m booking a 20-minute debrief for Wednesday.'],
+    ['Email to Sam', 'Subject: Your onsite with us\n\nHi Sam,\n\nThank you for your patience since your onsite on October 23. I\'m sorry it\'s taken this long. The team is wrapping up feedback this week, and you\'ll hear from us by Friday, November 13 either way.\n\nBest,\nJackie']
+  ],
+  nora: [
+    ['Slack to Riley', 'Hi Riley, Nora Lind\'s notes say not a fit after her final interview on Nov 3, but she\'s still active in Ashby. Okay for me to archive her and send a close-out today? Since she was a finalist, would you rather call her yourself?'],
+    ['Email to Nora', 'Subject: Your Reliability Engineer interviews\n\nHi Nora,\n\nThank you for the time and thought you put into your interviews. The team really enjoyed [one specific thing from her final round].\n\nAfter a lot of discussion, we\'ve decided not to move forward for this role. It was a close call.\n\nWe\'d love to stay in touch as we grow, and I\'ll keep you in mind for future roles.\n\nWishing you the best,\nJackie']
+  ],
+  grace: [
+    ['Email to Grace', 'Subject: New times for your interview\n\nHi Grace,\n\nI\'m sorry, the times you sent for October 21 to 23 slipped past us, and that\'s on me. Could you send a few windows for the week of November 9 or 16? Two-hour blocks work best, and I\'ll confirm within a day.\n\nThank you for your patience.\n\nJackie']
+  ],
+  ivy: [
+    ['Slack to the panel', 'Hi Kai and Nadia, thanks for interviewing Ivy Chen on Friday. Scorecards were due Saturday afternoon. Could you submit yours this morning? The debrief is on the calendar for 2 PM today.']
+  ],
+  omar: [
+    ['Email to Omar', 'Subject: A quick update\n\nHi Omar,\n\nQuick update on your process: the team is finishing up the technical round, and I\'ll have your next step for you by Wednesday. Thanks for your patience.\n\nJackie']
+  ]
+};
+var CHECKLISTS = {
+  ana: ['Confirm with Jordan that the Technical Interview record (booked Nov 11) is the current one.', 'Merge the old Initial Screen record into it in Ashby, keeping all feedback and emails.', 'Check that Ana\'s Nov 11 confirmation came from the right record, so she doesn\'t get two.']
+};
+var EXTRA_NOTES = { omar: 'This page never shows the amount.' };
+
+var FREE = {};
+function block(d, a, b) { return { s: Date.parse(d + 'T' + a + ':00-08:00'), e: Date.parse(d + 'T' + b + ':00-08:00') }; }
+[
+  ['Felix', [['2026-11-18', '09:00', '13:00'], ['2026-11-19', '09:00', '10:00'], ['2026-11-19', '14:00', '16:00'], ['2026-11-20', '09:00', '11:00']]],
+  ['Isaac', [['2026-11-18', '11:00', '15:00'], ['2026-11-19', '09:00', '10:00'], ['2026-11-19', '16:00', '17:00'], ['2026-11-20', '10:00', '11:00'], ['2026-11-23', '13:00', '15:00']]],
+  ['Nadia', [['2026-11-18', '11:00', '13:00'], ['2026-11-19', '09:00', '12:00'], ['2026-11-20', '10:00', '12:00']]],
+  ['Kai',   [['2026-11-18', '10:00', '12:00'], ['2026-11-18', '14:00', '16:00'], ['2026-11-19', '09:00', '11:00']]],
+  ['Luis',  [['2026-11-18', '10:00', '11:00'], ['2026-11-18', '13:00', '15:00']]],
+  ['Owen',  [['2026-11-18', '10:30', '12:00'], ['2026-11-18', '13:00', '15:00'], ['2026-11-19', '09:00', '10:00'], ['2026-11-19', '15:00', '17:00'], ['2026-11-20', '09:00', '12:00']]]
+].forEach(function (x) { FREE[x[0]] = x[1].map(function (b) { return block(b[0], b[1], b[2]); }); });
+var MAYA = {
+  availability: [block('2026-11-18', '08:00', '18:00'), block('2026-11-19', '08:00', '12:00')],
+  rounds: [
+    { name: 'Tech deep dive', minutes: 60, required: ['Felix'], pool: [], min: 0, backups: ['Owen'] },
+    { name: 'Coffee chat', minutes: 30, required: [], pool: ['Kai', 'Luis'], min: 1, max: 2, backups: [] },
+    { name: 'Presentation', minutes: 60, required: ['Felix', 'Isaac', 'Nadia'], pool: [], min: 0, backups: ['Owen'] },
+    { name: 'GM interview', minutes: 45, required: ['Isaac'], pool: [], min: 0, backups: [] }
+  ]
+};
+
+/* ---------- UI ---------- */
+var $ = function (id) { return document.getElementById(id); };
+var esc = function (s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
+if (REPO_URL) { $('codeLink').href = REPO_URL; $('codeLink').hidden = false; }
+
+var P = pulse(PIPELINE, NOW);
+var byId = {};
+P.flags.forEach(function (f) { (byId[f.id] = byId[f.id] || []).push(f); });
+var selected = 'maya', ontrackOpen = false;
+
+function idleText(id) {
+  var a = P.apps.filter(function (x) { return x.id === id; })[0];
+  if (!a || a.last == null) return '';
+  var d = Math.round((NOW - a.last) / DAY);
+  return d < 1 ? 'today' : d + 'd';
+}
+function renderPulse() {
+  var flaggedPeople = Object.keys(byId);
+  var dec = P.flags.filter(function (f) { return f.decision; }), fix = P.flags.filter(function (f) { return !f.decision; });
+  $('pulseSummary').innerHTML = P.active.length + ' active applications checked. <strong>' + dec.length + ' need a decision</strong> and <strong>' + fix.length + ' are quick fixes</strong>, across ' + flaggedPeople.length + ' people.';
+  var seen = {}, html = '';
+  function card(f, cls) {
+    if (seen[f.id]) return ''; seen[f.id] = 1;
+    var more = byId[f.id].length > 1 ? ' <span class="pill p-muted">+' + (byId[f.id].length - 1) + '</span>' : '';
+    return '<button type="button" class="flag ' + cls + '" data-id="' + f.id + '" aria-pressed="' + (f.id === selected) + '"><span class="stripe"></span>' +
+      '<span><span class="who">' + esc(f.candidate) + '</span>' + more + '<br><span class="sub">' + esc(f.role) + ' · ' + esc(f.stage) + ' · ' + esc(f.owner) + '</span>' +
+      '<div class="issue">' + esc(f.issue) + '</div></span><span class="age">' + idleText(f.id) + '</span></button>';
+  }
+  html += '<div class="group"><div class="group-title"><span class="pill p-decision">Needs a decision</span><span class="why">Only the owner or hiring manager can resolve these</span></div>' + dec.map(function (f) { return card(f, 'decision'); }).join('') + '</div>';
+  html += '<div class="group"><div class="group-title"><span class="pill p-fix">Quick fixes</span><span class="why">The coordinator can just do these</span></div>' + fix.map(function (f) { return card(f, 'fix'); }).join('') + '</div>';
+  var quiet = P.active.filter(function (a) { return !byId[a.id] && a.id !== 'ana-old'; });
+  html += '<details class="ontrack"' + (ontrackOpen ? ' open' : '') + '><summary>On track: ' + quiet.length + ' candidates, nothing needed today</summary><div class="group">' + quiet.map(function (a) {
+    var nxt = a.next ? 'Next: ' + fmtDay(a.next) + ', ' + fmtTime(a.next, PT) + ' PT' : 'Last touch ' + idleText(a.id) + ' ago';
+    return '<button type="button" class="flag ok" data-id="' + a.id + '" aria-pressed="' + (a.id === selected) + '"><span class="stripe"></span><span><span class="who">' + esc(a.candidate) + '</span><br><span class="sub">' + esc(a.role) + ' · ' + esc(a.stage) + '</span><div class="issue">' + esc(nxt) + '</div></span><span class="age"></span></button>';
+  }).join('') + '</div></details>';
+  $('pulseGroups').innerHTML = html;
+  $('pulseGroups').querySelector('details.ontrack').addEventListener('toggle', function (e) { ontrackOpen = e.target.open; });
+}
+$('pulseGroups').addEventListener('click', function (e) {
+  var b = e.target.closest('.flag'); if (!b) return;
+  selected = b.dataset.id; renderPulse(); renderCandidate();
+  if (window.matchMedia('(max-width: 900px)').matches) $('candidate').scrollIntoView({ behavior: 'smooth', block: 'start' });
+});
+
+var draftIndex = 0, briefChecked = false;
+function renderCandidate() {
+  var a = P.apps.filter(function (x) { return x.id === selected; })[0];
+  var flags = byId[selected] || [];
+  var top = flags[0];
+  var cls = top ? (top.decision ? 'decision' : 'fix') : 'ok';
+  var html = '<div class="panel-head"><h2 id="candTitle"><span class="n">2</span>Write to them</h2><span class="when">' + (selected === 'maya' ? 'Leads the list today' : '') + '</span></div>';
+  html += '<div class="cand-head"><p class="cand-name">' + esc(a.candidate) + '</p><div class="facts"><span><b>' + esc(a.role) + '</b></span><span>Stage <b>' + esc(a.stage) + '</b></span><span>Owner <b>' + esc(a.owner || 'none') + '</b></span>' + (a.last ? '<span>Last activity <b>' + fmtDay(a.last) + '</b></span>' : '') + '</div></div>';
+  if (flags.length) {
+    flags.forEach(function (f) {
+      var c = f.decision ? 'decision' : 'fix';
+      html += '<div class="callout ' + c + '"><span class="what">' + esc(f.issue) + '</span><span class="next"><b>Next step:</b> ' + esc(f.action) + '</span></div>';
+    });
+  } else {
+    html += '<div class="callout ok"><span class="what">On track.</span><span class="next">' + (a.next ? 'Next interview ' + fmtDay(a.next) + ' at ' + fmtTime(a.next, PT) + ' PT. Nothing to send today.' : 'Heard from us recently. Nothing to send today.') + '</span></div>';
+  }
+  if (EXTRA_NOTES[selected]) html += '<p class="hint">' + esc(EXTRA_NOTES[selected]) + '</p>';
+  if (selected === 'maya') {
+    html += '<div class="brief"><div class="row" style="justify-content:space-between"><span class="label">Research brief</span><span class="pill p-info">I check this before using it</span></div><dl>' +
+      MAYA_BRIEF.rows.map(function (r) { return '<dt>' + esc(r[0]) + '</dt><dd>' + esc(r[1]) + r[2].map(function (n) { return '<sup>[' + n + ']</sup>'; }).join('') + '</dd>'; }).join('') + '</dl>' +
+      '<ul class="sources">' + MAYA_BRIEF.sources.map(function (s) {
+        return '<li><span class="ref">[' + s[0] + ']</span><span>' + esc(s[1]) + '<br><span class="hint">' + esc(s[2]) + '</span></span><span class="pill ' + (s[3] === 'verified' ? 'p-ok' : 'p-info') + '">' + s[3] + '</span></li>';
+      }).join('') +
+      '<li class="skip"><span class="ref">—</span><span>' + esc(MAYA_BRIEF.skipped[0]) + '<br><span class="hint">' + esc(MAYA_BRIEF.skipped[1]) + '</span></span><span class="pill p-muted">skipped</span></li></ul>' +
+      '<div class="checks"><span>Every fact has a source</span><span>No name-only matches</span><span>Four sentences</span><span>Professional work only</span></div>' +
+      '<label class="review"><input type="checkbox" id="briefCheck"' + (briefChecked ? ' checked' : '') + '> I opened the sources and checked it\'s the same person</label></div>';
+  }
+  var drafts = DRAFTS[selected];
+  if (drafts) {
+    if (draftIndex >= drafts.length) draftIndex = 0;
+    html += '<div class="drafts"><div class="row" style="justify-content:space-between"><div class="draft-tabs" role="tablist">' + drafts.map(function (d, i) {
+      return '<button type="button" role="tab" data-d="' + i + '" aria-selected="' + (i === draftIndex) + '">' + esc(d[0]) + '</button>';
+    }).join('') + '</div><button class="btn ghost" id="copyDraft" type="button">Copy</button></div>' +
+      '<textarea class="draft" id="draftText" aria-label="Draft message">' + esc(drafts[draftIndex][1]) + '</textarea><p class="hint" id="draftHint"></p></div>';
+  }
+  if (CHECKLISTS[selected]) html += '<div class="drafts"><span class="label">No message needed. To do in Ashby:</span><ol class="checklist">' + CHECKLISTS[selected].map(function (c) { return '<li>' + esc(c) + '</li>'; }).join('') + '</ol></div>';
+  if (selected === 'maya') html += '<div class="row"><a class="btn" href="#onsite">Build her onsite</a><span class="hint">Once Jordan confirms, step 3 is ready to send.</span></div>';
+  $('candidate').innerHTML = html;
+  $('candidate').querySelectorAll('[data-d]').forEach(function (b) { b.addEventListener('click', function () { draftIndex = +b.dataset.d; renderCandidate(); }); });
+  if ($('copyDraft')) $('copyDraft').addEventListener('click', function () { copyText($('draftText')); });
+  var gate = function () {
+    if (!$('copyDraft')) return;
+    var needs = !!(drafts && drafts[draftIndex][2]) && !briefChecked;
+    $('copyDraft').disabled = needs;
+    $('draftHint').textContent = needs ? 'This email uses the research above, so check the sources first.' : 'Drafted for me to edit and send. Nothing goes out on its own.';
+  };
+  if ($('briefCheck')) $('briefCheck').addEventListener('change', function (e) { briefChecked = e.target.checked; gate(); });
+  gate();
+}
+
+/* ---- onsite ---- */
+var SOLVED = solveCandidate(MAYA, FREE);
+var DAY_START = SOLVED.placed[0].s;
+function onTheDay(p) { return p.s && ptDay(p.s) === ptDay(DAY_START); }
+function renderOnsite() {
+  var person = $('dropout').value;
+  var rows, gaps = [];
+  if (!person) rows = SOLVED.placed.map(function (p) { return { p: p, status: 'plan' }; });
+  else { var r = replanDropout(MAYA, SOLVED.placed, person, FREE); rows = r.rows; gaps = r.gaps; }
+  renderAfter(rows);
+  var onDay = rows.filter(function (x) { return onTheDay(x.p); });
+  var first = Math.min.apply(null, onDay.map(function (x) { return x.p.s; })), last = Math.max.apply(null, onDay.map(function (x) { return x.p.e; }));
+  $('dayTitle').textContent = fmtLongDay(DAY_START) + ' · ' + fmtRange(first, last, PT) + ' PT';
+  $('daySub').textContent = person
+    ? 'Rounds that don\'t involve ' + person + ' stay exactly where they are, so Maya\'s day barely moves.'
+    : 'Every round fits in one day, back to back in the order the team prefers.';
+  $('statusHead').textContent = 'What happens'; $('statusHead').hidden = !person;
+  var STAT = { plan: '', same: '<span class="pill p-muted">Unchanged</span>', covered: '<span class="pill p-ok">Covered</span>', moved: '<span class="pill p-info">Moved</span>', video: '<span class="pill p-fix">Video call</span>' };
+  $('schedBody').innerHTML = rows.map(function (x) {
+    var p = x.p, was = x.was && x.status === 'moved' ? '<span class="was">' + fmtRange(x.was.s, x.was.e, PT) + '</span>' : '';
+    var dayTag = p.s && !onTheDay(p) ? fmtDay(p.s) + ', ' : '';
+    var pt = p.s ? dayTag + fmtRange(p.s, p.e, PT) + was : '<span class="was">' + fmtRange(x.was.s, x.was.e, PT) + '</span>off today';
+    var note = person ? STAT[x.status] + (x.note ? ' <span class="hint" style="display:block;margin-top:4px">' + esc(x.note) + '</span>' : '') : (p.usedBackup ? 'Uses ' + esc(p.usedBackup) : '');
+    return '<tr><td><b>' + esc(p.round.name) + '</b></td><td class="t">' + pt + '</td><td>' + esc(p.people.join(', ')) + (p.usedBackup ? ' <span class="hint">(backup)</span>' : '') + '</td>' + (person ? '<td>' + note + '</td>' : '') + '</tr>';
+  }).join('');
+  renderCal(rows, person, gaps);
+  if (!person) {
+    $('planLabel').textContent = 'Backup plan, decided before the day';
+    $('planNotes').innerHTML = backupPlan(SOLVED.placed, FREE, MAYA).map(function (n) { return '<li><b>' + esc(n[0]) + '</b><span>' + esc(n[1]) + '</span></li>'; }).join('');
+    $('onsiteDraftLabel').textContent = 'Itinerary email to Maya';
+    $('onsiteDraft').value = itinerary(rows);
+  } else {
+    $('planLabel').textContent = 'What I do in the next ten minutes';
+    var steps = [];
+    rows.forEach(function (x) {
+      if (x.status === 'covered') steps.push(['Confirm', 'Message ' + x.p.people.filter(function (q) { return x.was.people.indexOf(q) < 0; }).concat(x.p.people.length < x.was.people.length ? x.p.people : []).filter(function (v, i, arr) { return arr.indexOf(v) === i; }).join(', ') + ' and update the ' + x.p.round.name.toLowerCase() + ' invite.']);
+      if (x.status === 'moved') steps.push(['Move', x.p.round.name + ' to ' + (onTheDay(x.p) ? '' : fmtDay(x.p.s) + ', ') + fmtRange(x.p.s, x.p.e, PT) + '. Update the invite for ' + x.p.people.join(', ') + '.']);
+      if (x.status === 'video') steps.push(['Reschedule', x.p.round.name + ': ' + (x.p.video ? 'hold ' + fmtDay(x.p.video.s) + ', ' + fmtRange(x.p.video.s, x.p.video.e, PT) + ' PT on video' : 'find a video slot this week') + ', and tell the interviewer and Maya.']);
+    });
+    gaps.forEach(function (g) { steps.push(['Fill the gap', fmtRange(g.s, g.e, PT) + ' is now open. Offer coffee with a couple of people from the team.']); });
+    steps.push(['Update', 'Ashby and the calendar, with a note that the change came from our side.']);
+    $('planNotes').innerHTML = steps.map(function (n) { return '<li><b>' + esc(n[0]) + '</b><span>' + esc(n[1]) + '</span></li>'; }).join('');
+    $('onsiteDraftLabel').textContent = 'Same-day note to Maya';
+    $('onsiteDraft').value = sameDay(rows, person, gaps);
+  }
+}
+function renderCal(rows, person, gaps) {
+  var d0 = Date.parse(ptDay(DAY_START) + 'T09:00:00-08:00'), span = 8.5 * HOUR;
+  var pos = function (t) { return Math.max(0, Math.min(100, (t - d0) / span * 100)); };
+  var people = ['Felix', 'Isaac', 'Nadia', 'Kai', 'Luis', 'Owen'];
+  var day = ptDay(DAY_START);
+  var ticks = '<div class="cal-row"><span></span><div class="ticks">';
+  for (var h = 9; h <= 17; h++) ticks += '<span style="left:' + pos(d0 + (h - 9) * HOUR) + '%">' + (h > 12 ? h - 12 : h) + (h >= 12 ? 'p' : 'a') + '</span>';
+  ticks += '</div></div>';
+  var lines = ''; for (var k = 0; k <= 8; k++) lines += '<span class="gridline" style="left:' + pos(d0 + k * HOUR) + '%"></span>';
+  var onDay = rows.filter(function (x) { return onTheDay(x.p); });
+  function blocks(list) { return list.map(function (x) {
+    var p = x.p, short = { 'Tech deep dive': 'Tech', 'Coffee chat': 'Coffee', 'Presentation': 'Presentation', 'GM interview': 'GM' }[p.round.name] || p.round.name;
+    return '<span class="blk round' + (x.status === 'moved' ? ' moved' : '') + '" style="left:' + pos(p.s) + '%;width:' + (pos(p.e) - pos(p.s)) + '%" title="' + esc(p.round.name + ', ' + fmtRange(p.s, p.e, PT)) + '">' + esc(short) + '</span>';
+  }).join(''); }
+  var gapHtml = gaps.map(function (g) { return '<span class="blk gap" style="left:' + pos(g.s) + '%;width:' + (pos(g.e) - pos(g.s)) + '%" title="Open gap"></span>'; }).join('');
+  var html = ticks + '<div class="cal-row"><span class="cal-name"><b>Maya</b> <small>candidate</small></span><div class="track">' + lines + blocks(onDay) + gapHtml + '</div></div>';
+  people.forEach(function (who) {
+    var free = (FREE[who] || []).filter(function (b) { return ptDay(b.s) === day; });
+    var mine = onDay.filter(function (x) { return x.p.people.indexOf(who) >= 0; });
+    var inner = lines + free.map(function (b) { return '<span class="blk free" style="left:' + pos(b.s) + '%;width:' + (pos(b.e) - pos(b.s)) + '%"></span>'; }).join('');
+    inner += who === person ? '<span class="blk out">Out today</span>' : blocks(mine);
+    html += '<div class="cal-row"><span class="cal-name">' + who + '</span><div class="track">' + inner + '</div></div>';
+  });
+  $('cal').innerHTML = html;
+}
+function itinerary(rows) {
+  var out = ['Subject: Your onsite on ' + fmtLongDay(DAY_START), '', 'Hi Maya,', '', 'We\'re excited to host you on ' + fmtLongDay(DAY_START) + '. Here\'s the plan (all times Pacific, local to our office). The calendar invites will show in your own time zone:', ''];
+  rows.forEach(function (x) { var p = x.p; out.push('- ' + fmtRange(p.s, p.e, PT) + ' PT: ' + p.round.name + ' with ' + p.people.join(', ')); });
+  out.push('', 'Where: our San Francisco office. I\'ll meet you in the lobby at ' + fmtTime(rows[0].p.s - 15 * MIN, PT) + '.', '',
+    'Travel: book your flight and hotel through the link I\'ll send separately, and we\'ll pay directly. Please use your legal name exactly as it appears on your ID. Two hotels within a short walk are on the list.', '',
+    'Good to know: we\'re a shoes-off office. A fresh pair of washable slippers will be waiting for you, so let me know your shoe size.', '',
+    'Before you come: please reply with any dietary restrictions or accessibility needs, and anything that would make the day easier.', '',
+    'If anything changes, just reply here and I\'ll take care of it.', '', 'Best,', 'Jackie');
+  return out.join('\n');
+}
+function renderAfter(rows) {
+  var onDay = rows.filter(function (x) { return onTheDay(x.p); });
+  var end = Math.max.apply(null, onDay.map(function (x) { return x.p.e; }));
+  var people = [];
+  rows.forEach(function (x) { x.p.people.forEach(function (q) { if (people.indexOf(q) < 0) people.push(q); }); });
+  var later = rows.filter(function (x) { return !onTheDay(x.p); }).length;
+  var items = [
+    ['Same day', 'Thank-you note to Maya, from me.'],
+    [fmtDay(end + DAY) + ', ' + fmtTime(end + DAY, PT), 'Scorecards in from ' + people.join(', ') + (later ? ' (or within a day of the rounds that moved)' : '') + '.'],
+    [fmtDay(end + 2 * DAY), 'Debrief with the hiring team.'],
+    ['Right after', 'Tell Maya the decision either way. A call if it\'s an offer; a personal note or call from the hiring manager if it\'s a no.']
+  ];
+  $('afterNotes').innerHTML = items.map(function (n) { return '<li><b>' + esc(n[0]) + '</b><span>' + esc(n[1]) + '</span></li>'; }).join('');
+}
+function sameDay(rows, person, gaps) {
+  var changes = rows.filter(function (x) { return x.status === 'moved' || x.status === 'video'; });
+  if (!changes.length) return 'No message needed.\n\nEvery round ' + person + ' was in is covered at the same time, so Maya\'s schedule doesn\'t change. Update the invites quietly and let the new interviewer know who they\'re meeting.';
+  var out = ['Hi Maya,', '', 'Quick heads-up: one of your interviewers had something urgent come up today, so we\'ve made a small change:', ''];
+  changes.forEach(function (x) {
+    if (x.status === 'moved' && !onTheDay(x.p)) out.push('- ' + x.p.round.name + ' moves to ' + fmtLongDay(x.p.s) + ' at ' + fmtTime(x.p.s, PT) + ' PT, before you head home. ' + x.p.people.join(', ') + (x.p.people.length > 1 ? ' are' : ' is') + ' looking forward to it.');
+    else if (x.status === 'moved') out.push('- ' + x.p.round.name + ' is now at ' + fmtRange(x.p.s, x.p.e, PT) + ' PT, with ' + x.p.people.join(', ') + '.');
+    else out.push('- ' + x.p.round.name + ' will be a short video call ' + (x.p.video ? 'on ' + fmtDay(x.p.video.s) + ' at ' + fmtTime(x.p.video.s, PT) + ' PT' : 'later this week') + '. I\'ll send the invite today.');
+  });
+  var firstNow = Math.min.apply(null, rows.filter(function (x) { return onTheDay(x.p); }).map(function (x) { return x.p.s; }));
+  if (firstNow > DAY_START) out.push('', 'Your day now starts at ' + fmtTime(firstNow, PT) + ' PT, so if you haven\'t left yet, feel free to come in at ' + fmtTime(firstNow - 15 * MIN, PT) + '.');
+  out.push('', 'Everything else stays the same.' + (gaps.length ? ' In the open time at ' + fmtRange(gaps[0].s, gaps[0].e, PT) + ', I\'d love to set you up for coffee with a couple of people from the team.' : ''), '', 'Sorry for the shuffle, and thanks for rolling with it.', '', 'Jackie');
+  return out.join('\n');
+}
+$('dropout').addEventListener('change', renderOnsite);
+$('copyOnsite').addEventListener('click', function () { copyText($('onsiteDraft')); });
+
+function copyText(el) {
+  var done = function () { toast('Copied'); };
+  if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(el.value).then(done, function () { el.select(); toast('Selected. Press Ctrl+C or ⌘C to copy'); });
+  else { el.select(); toast('Selected. Press Ctrl+C or ⌘C to copy'); }
+}
+var tt;
+function toast(t) { $('toast').textContent = t; $('toast').hidden = false; clearTimeout(tt); tt = setTimeout(function () { $('toast').hidden = true; }, 2500); }
+
+renderPulse(); renderCandidate(); renderOnsite();
+</script>
+</body>
+</html>

@@ -166,7 +166,7 @@ def markdown(lines: list[dict], url: str, handoff: str) -> str:
         out += ["", "## Amazon", "", f"[Open the cart with everything added]({url}). Check quantities and prices, "
                 "then check out yourself.", ""]
     if handoff:
-        out += ["## Other vendors (paste into Claude in Chrome)", "", "```text", handoff, "```", ""]
+        out += ["## Everything else (paste into Claude in Chrome)", "", "```text", handoff, "```", ""]
     return "\n".join(out)
 
 

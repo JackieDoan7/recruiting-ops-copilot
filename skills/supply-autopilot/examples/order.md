@@ -1,6 +1,6 @@
 # This week's supply order
 
-10 item(s) to order, estimated **$1,477.00**.
+11 item(s) to order, estimated **$928.00**.
 
 | Item | Vendor | On hand | On order | Target | Packs | Est. cost | Status |
 | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -9,7 +9,8 @@
 | KIND bars, dark chocolate, 12 ct | Amazon | 20 | 0 | 103 | 7 | $112.00 | Low |
 | LaCroix variety, 24 cans | Costco Business Delivery | 30 | 0 | 137 | 5 | $75.00 | Low |
 | Fresh fruit box | Local produce vendor | 0 | 0 | 2 | 2 | $90.00 | Out |
-| Washable slippers, teammate pairs | Amazon | 0 | 0 | 54 | 54 | $648.00 | Out |
+| Slipper trial pairs (3 kinds, 2 each) | Amazon | 0 | 0 | 6 | 6 | $90.00 | Out |
+| Name labels for teammate slipper spots | Amazon | 0 | 0 | 54 | 1 | $9.00 | Out |
 | Washable guest slippers, sized | Amazon | 4 | 0 | 15 | 11 | $132.00 | Low |
 | Wall-mounted shoe rack (one-time) | Amazon | 2 | 0 | 6 | 4 | $240.00 | Low |
 | Slipper bins with size labels (one-time) | Amazon | 0 | 0 | 2 | 2 | $50.00 | Out |
@@ -19,11 +20,12 @@
 
 [Open the cart with everything added](https://www.amazon.com/gp/aws/cart/add.html?ASIN.1=B01FV0F13E&Quantity.1=1&ASIN.2=B00HSC9F2C&Quantity.2=2&ASIN.3=B007PE7ANY&Quantity.3=7). Check quantities and prices, then check out yourself.
 
-## Other vendors (paste into Claude in Chrome)
+## Everything else (paste into Claude in Chrome)
 
 ```text
 In my signed-in Amazon tab, add these to the cart:
-- Washable slippers, teammate pairs x 54
+- Slipper trial pairs (3 kinds, 2 each) x 6
+- Name labels for teammate slipper spots x 1
 - Washable guest slippers, sized x 11
 - Wall-mounted shoe rack (one-time) x 4
 - Slipper bins with size labels (one-time) x 2
